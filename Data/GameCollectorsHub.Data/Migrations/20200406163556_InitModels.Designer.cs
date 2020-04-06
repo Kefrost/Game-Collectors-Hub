@@ -4,14 +4,16 @@ using GameCollectorsHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GameCollectorsHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200406163556_InitModels")]
+    partial class InitModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,6 +163,9 @@ namespace GameCollectorsHub.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("RatingId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ReviewId")
                         .HasColumnType("int");
 
@@ -170,6 +175,8 @@ namespace GameCollectorsHub.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("RatingId");
 
                     b.HasIndex("ReviewId");
 
@@ -244,6 +251,9 @@ namespace GameCollectorsHub.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -261,9 +271,6 @@ namespace GameCollectorsHub.Data.Migrations
 
                     b.Property<int>("RatingScore")
                         .HasColumnType("int");
-
-                    b.Property<string>("UserContent")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -457,6 +464,10 @@ namespace GameCollectorsHub.Data.Migrations
 
             modelBuilder.Entity("GameCollectorsHub.Data.Models.Comment", b =>
                 {
+                    b.HasOne("GameCollectorsHub.Data.Models.Rating", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("RatingId");
+
                     b.HasOne("GameCollectorsHub.Data.Models.Review", "Review")
                         .WithMany("Comments")
                         .HasForeignKey("ReviewId")

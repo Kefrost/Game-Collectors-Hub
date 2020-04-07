@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace GameCollectorsHub.Data.Migrations
+﻿namespace GameCollectorsHub.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class InitModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

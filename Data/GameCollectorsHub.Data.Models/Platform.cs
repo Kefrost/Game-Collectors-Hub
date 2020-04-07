@@ -7,6 +7,8 @@
         public Platform()
         {
             this.Games = new HashSet<Game>();
+
+            this.GameConsoles = new HashSet<GameConsole>();
         }
 
         public int Id { get; set; }
@@ -15,6 +17,8 @@
 
         public string ImageUrl { get; set; }
 
-        public virtual IEnumerable<Game> Games { get; set; }
+        public virtual ICollection<Game> Games { get; set; }
+
+        public virtual ICollection<GameConsole> GameConsoles { get; set; }
     }
 }

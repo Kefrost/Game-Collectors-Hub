@@ -1,9 +1,60 @@
-﻿@using GameCollectorsHub.Common
+﻿@model GameCollectorsHub.Web.ViewModels.Home.HomeViewModel
+@using GameCollectorsHub.Common
 @{
     this.ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Welcome to @GlobalConstants.SystemName!</h1>
+        <p class="lead text-muted">
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tempus orci non accumsan pretium. Vestibulum rutrum varius lorem.
+            Suspendisse scelerisque ligula eros. Fusce placerat risus odio, et sodales sem tristique quis.
+            Suspendisse vel velit id enim accumsan euismod et in urna. Curabitur volutpat accumsan eros quis posuere.
+            Nulla facilisi. Curabitur eget dapibus lacus, at consectetur velit. Pellentesque vel erat sed lacus pretium pulvinar sit amet eu ipsum.
+            In tincidunt sapien blandit, finibus lectus vel, eleifend mi."
+        </p>
+    </div>
+</section>
+
+<div class="container bg-light">
+    
+    <h2>What are you collecting?</h2>
+
+    <div class="py-5">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="card box-shadow" style="width: 100%;">
+                        <img src="https://cdn.shopify.com/s/files/1/0999/3734/files/unnamed_large.jpg?v=1547808329" class="card-img-top" alt="Games" style="height: 225px">
+                        <div class="card-body">
+                            <h5 class="card-title">Games</h5>
+                            <p class="card-text">Games Count: @Model.GamesCount</p>
+                            <a href"#" class="btn btn-primary">Browse Games</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="card box-shadow" style="width: 100%;">
+                        <img src="https://www.greenprophet.com/wp-content/uploads/eco-video-game-console.jpg" class="card-img-top" alt="Consoles" style="height: 225px">
+                        <div class="card-body">
+                            <h5 class="card-title">Consoles</h5>
+                            <p class="card-text">Consoles Count: @Model.ConsolesCount</p>
+                            <a href"#" class="btn btn-primary">Browse Consoles</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="card box-shadow" style="width: 100%;">
+                        <img src="https://www.lifewire.com/thmb/zSasfmaM2ShK4Vr7wM0wKY21rkM=/768x0/filters:no_upscale():max_bytes(150000):strip_icc()/whatisamiibo-5af7679bba61770036091b03.jpg" class="card-img-top" alt="Amiibos" style="height: 225px">
+                        <div class="card-body">
+                            <h5 class="card-title">Amiibos</h5>
+                            <p class="card-text">Amiibos Count: @Model.AmiibosCount</p>
+                            <a href"#" class="btn btn-primary">Browse Amiibos</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
 </div>

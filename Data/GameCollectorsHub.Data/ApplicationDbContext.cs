@@ -36,6 +36,12 @@
 
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<GameConsole> GameConsoles { get; set; }
+
+        public DbSet<Amiibo> Amiibos { get; set; }
+
+        public DbSet<AmiiboSeries> AmiiboSeries { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

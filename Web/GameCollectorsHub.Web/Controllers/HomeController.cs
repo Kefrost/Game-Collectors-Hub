@@ -1,16 +1,25 @@
 ﻿namespace GameCollectorsHub.Web.Controllers
 {
     using System.Diagnostics;
-
+    using GameCollectorsHub.Services.Data.Home;
     using GameCollectorsHub.Web.ViewModels;
 
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
+        private readonly IHomeService service;
+
+        public HomeController(IHomeService service)
+        {
+            this.service = service;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = this.service.GetAll();
+
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

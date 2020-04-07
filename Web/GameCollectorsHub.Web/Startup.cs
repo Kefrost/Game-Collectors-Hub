@@ -9,6 +9,7 @@
     using GameCollectorsHub.Data.Repositories;
     using GameCollectorsHub.Data.Seeding;
     using GameCollectorsHub.Services.Data;
+    using GameCollectorsHub.Services.Data.Home;
     using GameCollectorsHub.Services.Mapping;
     using GameCollectorsHub.Services.Messaging;
     using GameCollectorsHub.Web.ViewModels;
@@ -59,6 +60,7 @@
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IHomeService, HomeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

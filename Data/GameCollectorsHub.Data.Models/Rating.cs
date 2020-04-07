@@ -1,9 +1,8 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
-using GameCollectorsHub.Data.Common.Models;
-using System.Collections.Generic;
-
 namespace GameCollectorsHub.Data.Models
 {
+    using GameCollectorsHub.Data.Common.Models;
+
     public class Rating : BaseDeletableModel<int>
     {
         public int GameId { get; set; }

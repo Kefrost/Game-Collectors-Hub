@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace GameCollectorsHub.Data.Migrations
+﻿namespace GameCollectorsHub.Data.Migrations
 {
-    public partial class changeRating : Migration
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+    public partial class ChangeRating : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

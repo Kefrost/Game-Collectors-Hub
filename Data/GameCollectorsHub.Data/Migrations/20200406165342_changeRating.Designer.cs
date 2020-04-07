@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameCollectorsHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200406165342_changeRating")]
-    partial class changeRating
+    [Migration("20200406165342_ChangeRating")]
+    partial class ChangeRating
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

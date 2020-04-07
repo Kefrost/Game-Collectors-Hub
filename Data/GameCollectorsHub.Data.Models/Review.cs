@@ -1,8 +1,9 @@
-﻿using GameCollectorsHub.Data.Common.Models;
-using System.Collections.Generic;
-
-namespace GameCollectorsHub.Data.Models
+﻿namespace GameCollectorsHub.Data.Models
 {
+    using System.Collections.Generic;
+
+    using GameCollectorsHub.Data.Common.Models;
+
     public class Review : BaseDeletableModel<int>
     {
         public Review()
@@ -16,6 +17,6 @@ namespace GameCollectorsHub.Data.Models
 
         public int RatingScore { get; set; }
 
-        public IEnumerable<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameCollectorsHub.Data.Models
+﻿namespace GameCollectorsHub.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class Game
     {
         public Game()

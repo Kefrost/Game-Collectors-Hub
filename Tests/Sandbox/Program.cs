@@ -5,6 +5,7 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
     using GameCollectorsHub.Data;
     using GameCollectorsHub.Data.Common;
     using GameCollectorsHub.Data.Common.Repositories;
@@ -13,9 +14,6 @@
     using GameCollectorsHub.Data.Seeding;
     using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Services.Messaging;
-
-    using CommandLine;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

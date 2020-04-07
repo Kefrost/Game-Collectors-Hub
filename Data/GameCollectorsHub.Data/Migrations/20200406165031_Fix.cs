@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace GameCollectorsHub.Data.Migrations
+﻿namespace GameCollectorsHub.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class Fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

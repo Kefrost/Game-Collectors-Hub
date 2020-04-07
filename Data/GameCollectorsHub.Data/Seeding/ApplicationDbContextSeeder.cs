@@ -27,6 +27,8 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
+                              new PlatformSeeder(),
+                              new AmiiboSeriesSeeder(),
                           };
 
             foreach (var seeder in seeders)

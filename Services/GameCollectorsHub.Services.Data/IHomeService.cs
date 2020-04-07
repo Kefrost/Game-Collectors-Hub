@@ -1,4 +1,4 @@
-﻿namespace GameCollectorsHub.Services.Data.Home
+﻿namespace GameCollectorsHub.Services.Data
 {
     using System.Collections.Generic;
 

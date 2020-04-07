@@ -1,0 +1,30 @@
+﻿@model GameCollectorsHub.Web.ViewModels.Game.ListGamesViewModel
+@{
+    ViewData["Title"] = "Browse";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container bg-light">
+        <div class="text-center">
+            <h1>All @Model.Games.FirstOrDefault().PlatformName Games</h1>
+        </div>
+
+        <div class="py-5">
+            <div class="row">
+                @foreach (var game in Model.Games)
+                {
+                    <div class="col-lg-4 col-md-4 col-sm-12 mt-4">
+                        <div class="card box-shadow" style="width: 100%;">
+                            <a asp-action="Details" asp-route-id="@game.Id"><img src="@game.ImgUrl" class="card-img-top" alt="@game.Name" style="height: 350px"></a>
+                            <div class="card-body">
+                                <h5 class="card-title">@game.Name (@game.PlatformName)</h5>
+                                <p class="card-text">@game.Publisher/@game.Developer</p>
+                                <p class="card-text">@game.ReleaseDate.ToShortDateString()</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+

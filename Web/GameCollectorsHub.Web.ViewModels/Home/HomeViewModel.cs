@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameCollectorsHub.Web.ViewModels.Home
+﻿namespace GameCollectorsHub.Web.ViewModels.Home
 {
     public class HomeViewModel
     {

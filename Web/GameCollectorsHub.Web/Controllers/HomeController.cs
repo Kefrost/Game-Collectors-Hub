@@ -1,7 +1,8 @@
 ﻿namespace GameCollectorsHub.Web.Controllers
 {
     using System.Diagnostics;
-    using GameCollectorsHub.Services.Data.Home;
+
+    using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Web.ViewModels;
 
     using Microsoft.AspNetCore.Mvc;

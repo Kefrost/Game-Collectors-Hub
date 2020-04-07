@@ -1,9 +1,7 @@
-﻿namespace GameCollectorsHub.Services.Data.Home
+﻿namespace GameCollectorsHub.Services.Data
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
+
     using GameCollectorsHub.Data.Common.Repositories;
     using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Web.ViewModels.Home;
@@ -24,7 +22,7 @@
         public HomeViewModel GetAll()
         {
             int gameCount = this.game.All().Count();
-            int consolesCount = this.console.All().Count(); 
+            int consolesCount = this.console.All().Count();
             int amiiboCount = this.amiibo.All().Count();
 
             var viewModel = new HomeViewModel { GamesCount = gameCount, ConsolesCount = consolesCount, AmiibosCount = amiiboCount };

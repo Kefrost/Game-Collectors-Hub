@@ -29,7 +29,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Games</h5>
                             <p class="card-text">Games Count: @Model.GamesCount</p>
-                            <a href"#" class="btn btn-primary">Browse Games</a>
+                            <a asp-controller="Game" asp-action="Platforms" class="btn btn-primary">Browse Games</a>
                         </div>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Consoles</h5>
                             <p class="card-text">Consoles Count: @Model.ConsolesCount</p>
-                            <a href"#" class="btn btn-primary">Browse Consoles</a>
+                            <a asp-controller="Console" asp-action="Platforms" class="btn btn-primary">Browse Consoles</a>
                         </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Amiibos</h5>
                             <p class="card-text">Amiibos Count: @Model.AmiibosCount</p>
-                            <a href"#" class="btn btn-primary">Browse Amiibos</a>
+                            <a asp-controller="Amiibo" asp-action="Series" class="btn btn-primary">Browse Amiibos</a>
                         </div>
                     </div>
                 </div>

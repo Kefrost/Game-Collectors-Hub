@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\Services\GameCollectorsHub.Services.Mapping\GameCollectorsHub.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Console\" />
+  </ItemGroup>
+
 </Project>

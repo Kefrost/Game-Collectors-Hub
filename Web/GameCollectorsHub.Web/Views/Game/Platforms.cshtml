@@ -1,0 +1,30 @@
+﻿@model GameCollectorsHub.Web.ViewModels.Platform.PlatformsViewModel
+@{
+    ViewData["Title"] = "Platforms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container bg-light">
+        <div class="text-center">
+            <h1>Select platform</h1>
+        </div>
+
+        <div class="py-5">
+            <div class="row">
+                @foreach (var platform in Model.Platforms)
+                {
+                    <div class="col-lg-4 col-md-4 col-sm-12 mt-4">
+                        <div class="card box-shadow" style="width: 100%;">
+                            <img src="@platform.ImgUrl" class="card-img-top" alt="@platform.Name" style="height: 350px">
+                            <div class="card-body">
+                                <h5 class="card-title">@platform.Name</h5>
+                                <p class="card-text">Games Count: @platform.GamesCount</p>
+                                <a asp-controller="Game" asp-action="Browse" asp-route-id="@platform.Id" class="btn btn-primary">Browse Games</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+

@@ -8,6 +8,8 @@
 
         public string Name { get; set; }
 
+        public string ImgUrl { get; set; }
+
         public string Franchise { get; set; }
 
         public DateTime ReleaseDate { get; set; }

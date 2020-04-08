@@ -63,6 +63,7 @@
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IPlatformService, PlatformService>();
             services.AddTransient<IAmiiboService, AmiiboService>();
+            services.AddTransient<IConsoleService, ConsoleService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

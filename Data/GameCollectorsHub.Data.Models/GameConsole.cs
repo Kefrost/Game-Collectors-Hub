@@ -12,7 +12,7 @@
 
         public DateTime ReleaseDate { get; set; }
 
-        public int InitialPrice { get; set; }
+        public decimal InitialPrice { get; set; }
 
         public string Description { get; set; }
 

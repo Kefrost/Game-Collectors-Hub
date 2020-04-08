@@ -19,7 +19,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">@series.Name</h5>
                                 <p class="card-text">Amiibos Count: @series.AmiibosCount</p>
-                                <a href"#" class="btn btn-primary">Browse Amiibos</a>
+                                <a asp-action="Browse" asp-route-id="@series.Id" class="btn btn-primary">Browse Amiibos</a>
                             </div>
                         </div>
                     </div>

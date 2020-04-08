@@ -26,5 +26,37 @@
 
             return this.View(viewModel);
         }
+
+        public IActionResult Details(int id)
+        {
+            return this.View();
+        }
+
+        public IActionResult Create()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(AddAmiiboInputModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            var amiiboId = await this.service.CreateAmiiboAsync(model);
+
+            return this.RedirectToAction("Details", new { id = amiiboId });
+        }
+
+        public IActionResult Browse(int id)
+        {
+            var amiibos = this.service.GetAllBySeries(id);
+
+            var viewModel = new AllAmiibosViewModel { Amiibos = amiibos };
+
+            return this.View(viewModel);
+        }
     }
 }

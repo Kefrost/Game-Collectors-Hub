@@ -19,7 +19,7 @@
                         <div class="card-body">
                             <h5 class="card-title">@platform.Name</h5>
                             <p class="card-text">Consoles Count: @platform.ConsolesCount</p>
-                            <a href"#" class="btn btn-primary">Browse Consoles</a>
+                            <a asp-action="Browse" asp-route-id="@platform.Id" class="btn btn-primary">Browse Consoles</a>
                         </div>
                     </div>
                 </div>

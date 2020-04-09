@@ -80,6 +80,7 @@
                 Genre = a.Genre,
                 ImageUrl = a.ImageUrl,
                 PlatformName = a.Platform.Name,
+                PlatformId = a.PlatformId,
                 ReleaseDate = a.ReleaseDate,
                 Series = a.Series,
                 ReviewImgUrl = a.ImageUrl,
@@ -90,6 +91,35 @@
             }).FirstOrDefault();
 
             return game;
+        }
+
+        public async Task EditGameAsync(AddGameInputModel model)
+        {
+            var game = this.repository.All().Where(a => a.Id == model.Id).FirstOrDefault();
+
+            game.Name = model.Name;
+            game.Description = model.Description;
+            game.Developer = model.Developer;
+            game.ReleaseDate = model.ReleaseDate;
+            game.Genre = model.Genre;
+            game.ImageUrl = model.ImageUrl;
+            game.PlatformId = model.PlatformId;
+            game.Publisher = model.Publisher;
+            game.Series = model.Series;
+
+            this.repository.Update(game);
+            await this.repository.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteGameAsync(int id)
+        {
+            var game = this.repository.All().Where(a => a.Id == id).FirstOrDefault();
+
+            this.repository.Delete(game);
+
+            await this.repository.SaveChangesAsync();
+
+            return game.PlatformId;
         }
     }
 }

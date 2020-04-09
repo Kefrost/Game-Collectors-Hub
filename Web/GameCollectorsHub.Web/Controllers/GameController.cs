@@ -66,5 +66,68 @@
 
             return this.View(viewModel);
         }
+
+        public IActionResult Edit(int id)
+        {
+            var game = this.gameService.GetGameDetails(id);
+
+            var viewModel = new AddGameInputModel
+            {
+                Id = id,
+                Name = game.Name,
+                Description = game.Description,
+                Developer = game.Developer,
+                Publisher = game.Publisher,
+                ImageUrl = game.ImageUrl,
+                ReleaseDate = game.ReleaseDate,
+                Genre = game.Genre,
+                Series = game.Series,
+                PlatformId = game.PlatformId,
+            };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AddGameInputModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            await this.gameService.EditGameAsync(model);
+
+            return this.RedirectToAction("Details", new { id = model.Id });
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var game = this.gameService.GetGameDetails(id);
+
+            var viewModel = new AddGameInputModel
+            {
+                Id = id,
+                Name = game.Name,
+                Description = game.Description,
+                Developer = game.Developer,
+                Publisher = game.Publisher,
+                ImageUrl = game.ImageUrl,
+                ReleaseDate = game.ReleaseDate,
+                Genre = game.Genre,
+                Series = game.Series,
+                PlatformId = game.PlatformId,
+            };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirm(int id)
+        {
+            var platformId = await this.gameService.DeleteGameAsync(id);
+
+            return this.RedirectToAction("Browse", new { id = platformId });
+        }
     }
 }

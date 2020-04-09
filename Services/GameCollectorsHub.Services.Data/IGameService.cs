@@ -13,5 +13,9 @@
         public IEnumerable<ListGameDetailsViewModel> GetAllByPlatform(int id);
 
         public GameDetailsViewModel GetGameDetails(int id);
+
+        public Task EditGameAsync(AddGameInputModel model);
+
+        public Task<int> DeleteGameAsync(int id);
     }
 }

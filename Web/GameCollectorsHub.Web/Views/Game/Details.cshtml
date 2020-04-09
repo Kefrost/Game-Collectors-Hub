@@ -69,5 +69,6 @@
 </main>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
+    <a asp-action="Browse" asp-route-id="@Model.PlatformId">Back to @Model.PlatformName games</a>
 </div>

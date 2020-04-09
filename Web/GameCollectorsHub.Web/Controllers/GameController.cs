@@ -30,7 +30,14 @@
 
         public IActionResult Details(int id)
         {
-            return this.View();
+            var viewModel = this.gameService.GetGameDetails(id);
+
+            if (viewModel.OurReviewScore == null)
+            {
+                viewModel.OurReviewScore = "N/A";
+            }
+
+            return this.View(viewModel);
         }
 
         public IActionResult Create()

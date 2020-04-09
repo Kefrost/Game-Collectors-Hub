@@ -11,5 +11,7 @@
         public Task<int> CreateGameAsync(AddGameInputModel model);
 
         public IEnumerable<ListGameDetailsViewModel> GetAllByPlatform(int id);
+
+        public GameDetailsViewModel GetGameDetails(int id);
     }
 }

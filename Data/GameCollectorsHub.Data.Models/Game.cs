@@ -8,7 +8,7 @@
         public Game()
         {
             this.Ratings = new HashSet<Rating>();
-            this.Reviews = new HashSet<Review>();
+            this.GamesReviews = new HashSet<GamesReview>();
         }
 
         public int Id { get; set; }
@@ -33,7 +33,7 @@
 
         public virtual Platform Platform { get; set; }
 
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<GamesReview> GamesReviews { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }
     }

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="container bg-light">
+    <div class="container bg-white">
         <div class="text-center">
             <h1>All @Model.Amiibos.FirstOrDefault().SeriesName Amiibos</h1>
         </div>
@@ -13,9 +13,9 @@
             <div class="row">
                 @foreach (var amiibo in Model.Amiibos)
                 {
-                    <div class="col-lg-4 col-md-4 col-sm-12 mt-4">
-                        <div class="card box-shadow" style="width: 100%;">
-                            <a asp-action="Details" asp-route-id="@amiibo.Id"><img src="@amiibo.ImgUrl" class="card-img-top" alt="@amiibo.Name" style="height: 350px"></a>
+                    <div class="col-lg-3 col-md-3 col-sm-12 mt-4">
+                        <div class="card border-white box-shadow" style="width: 120px; height: auto">
+                            <a asp-action="Details" asp-route-id="@amiibo.Id"><img src="@amiibo.ImgUrl" class="card-img-top" alt="@amiibo.Name" style="height: 200px; width: 120px;"></a>
                             <div class="card-body">
                                 <div class="text-center">
                                     <h5 class="card-title">@amiibo.Name</h5>

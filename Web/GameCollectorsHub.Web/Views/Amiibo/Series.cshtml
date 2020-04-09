@@ -13,9 +13,9 @@
             <div class="row">
                 @foreach (var series in Model.AmiiboSeries)
                 {
-                    <div class="col-lg-4 col-md-4 col-sm-12 mt-4">
-                        <div class="card box-shadow" style="width: 100%;">
-                            <img src="@series.ImgUrl" class="card-img-top" alt="@series.Name" style="height: 350px">
+                    <div class="col-lg-3 col-md-3 col-sm-12 mt-4">
+                        <div class="card box-shadow" style="width: 260px; height: 100%">
+                            <img src="@series.ImgUrl" class="card-img-top" alt="@series.Name" style="height: 250px; width: 250px;">
                             <div class="card-body">
                                 <h5 class="card-title">@series.Name</h5>
                                 <p class="card-text">Amiibos Count: @series.AmiibosCount</p>

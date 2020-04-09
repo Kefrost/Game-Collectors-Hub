@@ -42,6 +42,8 @@
 
         public DbSet<AmiiboSeries> AmiiboSeries { get; set; }
 
+        public DbSet<GamesReview> GamesReviews { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -71,6 +73,9 @@
             EntityIndexesConfiguration.Configure(builder);
 
             var entityTypes = builder.Model.GetEntityTypes().ToList();
+
+            builder.Entity<GamesReview>()
+                .HasKey(a => new { a.GameId, a.ReviewId });
 
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes

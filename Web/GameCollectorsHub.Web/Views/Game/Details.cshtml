@@ -1,0 +1,73 @@
+﻿@model GameCollectorsHub.Web.ViewModels.Game.GameDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark row">
+        <div class="col-md-6 px-0">
+            <img src="@Model.ImageUrl" style="max-width: 350px; max-height: 350px" />
+        </div>
+        <div class="col-md-6 px-0">
+            <h1 class="display-4 font-italic">@Model.Name</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="lead">System: @Model.PlatformName</p>
+                    <p class="lead">Publisher: @Model.Publisher</p>
+                    <p class="lead">Developer: @Model.Developer</p>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Collection!</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Wishlist!</button>
+                </div>
+                <div class="col-md-6">
+                    <p class="lead">Our Review Score: @Model.OurReviewScore </p>
+                    <p class="lead">Users Score: 8</p>
+                    <p class="lead">Current Prices:</p>
+                    <p class="lead">Loose Price: €22.16</p>
+                    <p class="lead">Complete Price: €77.55</p>
+                    <p class="lead">New Price: 	€901.39</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main role="main" class="container">
+    <h2 class="pb-4 mb-4 font-italic border-bottom">
+        Overview
+    </h2>
+
+    <div class="row">
+        <div class="col-md-2">
+            <p class="lead font-weight-bolder">Genre:</p>
+            <p class="lead font-weight-bolder">Release Date:</p>
+            <p class="lead font-weight-bolder">Series:</p>
+        </div>
+        <div class="col-md-2">
+            <p class="lead">@Model.Genre</p>
+            <p class="lead">@Model.ReleaseDate.ToShortDateString()</p>
+            <p class="lead">@Model.Series</p>
+        </div>
+    </div>
+
+    <h2 class="pb-4 mb-4 font-italic border-bottom mt-4">
+        About The Game
+    </h2>
+
+    <p>@Model.Description</p>
+
+    <h2 class="pb-4 mb-4 font-italic border-bottom">
+        Reviews
+    </h2>
+
+    @if (Model.ReviewId == -1)
+    {
+        <h3 class=" font-italic text-center">Sorry, no review of @Model.Name yet.</h3>
+    }
+
+</main>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

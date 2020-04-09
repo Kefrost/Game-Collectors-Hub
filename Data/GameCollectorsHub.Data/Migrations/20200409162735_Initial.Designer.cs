@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameCollectorsHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200406165031_Fix")]
-    partial class Fix
+    [Migration("20200409162735_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,56 @@ namespace GameCollectorsHub.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("GameCollectorsHub.Data.Models.Amiibo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AmiiboSeriesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Franchise")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AmiiboSeriesId");
+
+                    b.ToTable("Amiibos");
+                });
+
+            modelBuilder.Entity("GameCollectorsHub.Data.Models.AmiiboSeries", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AmiiboSeries");
+                });
 
             modelBuilder.Entity("GameCollectorsHub.Data.Models.ApplicationRole", b =>
                 {
@@ -221,6 +271,56 @@ namespace GameCollectorsHub.Data.Migrations
                     b.ToTable("Games");
                 });
 
+            modelBuilder.Entity("GameCollectorsHub.Data.Models.GameConsole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("InitialPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PlatformId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlatformId");
+
+                    b.ToTable("GameConsoles");
+                });
+
+            modelBuilder.Entity("GameCollectorsHub.Data.Models.GamesReview", b =>
+                {
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReviewId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GameId", "ReviewId");
+
+                    b.HasIndex("ReviewId");
+
+                    b.ToTable("GamesReviews");
+                });
+
             modelBuilder.Entity("GameCollectorsHub.Data.Models.Platform", b =>
                 {
                     b.Property<int>("Id")
@@ -297,9 +397,6 @@ namespace GameCollectorsHub.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("GameId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -313,8 +410,6 @@ namespace GameCollectorsHub.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GameId");
 
                     b.HasIndex("IsDeleted");
 
@@ -457,6 +552,15 @@ namespace GameCollectorsHub.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("GameCollectorsHub.Data.Models.Amiibo", b =>
+                {
+                    b.HasOne("GameCollectorsHub.Data.Models.AmiiboSeries", "AmiiboSeries")
+                        .WithMany("Amiibos")
+                        .HasForeignKey("AmiiboSeriesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("GameCollectorsHub.Data.Models.Comment", b =>
                 {
                     b.HasOne("GameCollectorsHub.Data.Models.Review", "Review")
@@ -479,6 +583,30 @@ namespace GameCollectorsHub.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GameCollectorsHub.Data.Models.GameConsole", b =>
+                {
+                    b.HasOne("GameCollectorsHub.Data.Models.Platform", "Platform")
+                        .WithMany("GameConsoles")
+                        .HasForeignKey("PlatformId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GameCollectorsHub.Data.Models.GamesReview", b =>
+                {
+                    b.HasOne("GameCollectorsHub.Data.Models.Game", "Game")
+                        .WithMany("GamesReviews")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GameCollectorsHub.Data.Models.Review", "Review")
+                        .WithMany("GamesReviews")
+                        .HasForeignKey("ReviewId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("GameCollectorsHub.Data.Models.Rating", b =>
                 {
                     b.HasOne("GameCollectorsHub.Data.Models.Game", "Game")
@@ -490,13 +618,6 @@ namespace GameCollectorsHub.Data.Migrations
                     b.HasOne("GameCollectorsHub.Data.Models.ApplicationUser", "User")
                         .WithMany("Ratings")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("GameCollectorsHub.Data.Models.Review", b =>
-                {
-                    b.HasOne("GameCollectorsHub.Data.Models.Game", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("GameId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

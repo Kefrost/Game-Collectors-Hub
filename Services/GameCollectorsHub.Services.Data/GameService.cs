@@ -56,5 +56,40 @@
 
             return games;
         }
+
+        public GameDetailsViewModel GetGameDetails(int id)
+        {
+            bool isExist = false;
+
+            if (this.repository.All().Where(a => a.Id == id).Select(a => a.GamesReviews).Any())
+            {
+                isExist = false;
+            }
+            else
+            {
+                isExist = true;
+            }
+
+            var game = this.repository.All().Where(a => a.Id == id).Select(a => new GameDetailsViewModel
+            {
+                Id = a.Id,
+                Name = a.Name,
+                Description = a.Description,
+                Developer = a.Developer,
+                Publisher = a.Publisher,
+                Genre = a.Genre,
+                ImageUrl = a.ImageUrl,
+                PlatformName = a.Platform.Name,
+                ReleaseDate = a.ReleaseDate,
+                Series = a.Series,
+                ReviewImgUrl = a.ImageUrl,
+                ReviewId = isExist ? a.GamesReviews.Where(a => a.GameId == id).FirstOrDefault().ReviewId : -1,
+                ReviewName = isExist ? a.GamesReviews.Where(a => a.GameId == id).FirstOrDefault().Review.Title : null,
+                OurReviewScore = isExist ? a.GamesReviews.Where(a => a.GameId == id).FirstOrDefault().Review.RatingScore.ToString() : null,
+                ShortReviewContent = isExist ? a.GamesReviews.Where(a => a.GameId == id).FirstOrDefault().Review.Content.Take(100).ToString() : null,
+            }).FirstOrDefault();
+
+            return game;
+        }
     }
 }

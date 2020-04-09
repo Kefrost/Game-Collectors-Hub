@@ -9,6 +9,7 @@
         public Review()
         {
             this.Comments = new HashSet<Comment>();
+            this.GamesReviews = new HashSet<GamesReview>();
         }
 
         public string Title { get; set; }
@@ -17,6 +18,8 @@
 
         public int RatingScore { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
+
+        public virtual ICollection<GamesReview> GamesReviews { get; set; }
     }
 }

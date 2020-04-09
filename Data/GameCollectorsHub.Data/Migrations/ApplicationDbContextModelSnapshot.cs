@@ -304,6 +304,21 @@ namespace GameCollectorsHub.Data.Migrations
                     b.ToTable("GameConsoles");
                 });
 
+            modelBuilder.Entity("GameCollectorsHub.Data.Models.GamesReview", b =>
+                {
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReviewId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GameId", "ReviewId");
+
+                    b.HasIndex("ReviewId");
+
+                    b.ToTable("GamesReviews");
+                });
+
             modelBuilder.Entity("GameCollectorsHub.Data.Models.Platform", b =>
                 {
                     b.Property<int>("Id")
@@ -380,9 +395,6 @@ namespace GameCollectorsHub.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("GameId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -396,8 +408,6 @@ namespace GameCollectorsHub.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GameId");
 
                     b.HasIndex("IsDeleted");
 
@@ -580,6 +590,21 @@ namespace GameCollectorsHub.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GameCollectorsHub.Data.Models.GamesReview", b =>
+                {
+                    b.HasOne("GameCollectorsHub.Data.Models.Game", "Game")
+                        .WithMany("GamesReviews")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GameCollectorsHub.Data.Models.Review", "Review")
+                        .WithMany("GamesReviews")
+                        .HasForeignKey("ReviewId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("GameCollectorsHub.Data.Models.Rating", b =>
                 {
                     b.HasOne("GameCollectorsHub.Data.Models.Game", "Game")
@@ -591,13 +616,6 @@ namespace GameCollectorsHub.Data.Migrations
                     b.HasOne("GameCollectorsHub.Data.Models.ApplicationUser", "User")
                         .WithMany("Ratings")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("GameCollectorsHub.Data.Models.Review", b =>
-                {
-                    b.HasOne("GameCollectorsHub.Data.Models.Game", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("GameId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

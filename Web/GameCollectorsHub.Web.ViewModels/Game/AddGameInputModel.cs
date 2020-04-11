@@ -41,5 +41,9 @@
         [Required]
         [Display(Name = "Platform")]
         public int PlatformId { get; set; }
+
+        [Required]
+        [Display(Name = "Launch Title ?")]
+        public bool IsLaunchTitle { get; set; }
     }
 }

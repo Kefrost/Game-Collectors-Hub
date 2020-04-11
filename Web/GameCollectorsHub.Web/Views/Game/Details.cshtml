@@ -33,7 +33,7 @@
     </div>
 </div>
 
-<main role="main" class="container">
+<main role="main" class="container bg-light">
     <h2 class="pb-4 mb-4 font-italic border-bottom">
         Overview
     </h2>
@@ -66,9 +66,11 @@
         <h3 class=" font-italic text-center">Sorry, no review of @Model.Name yet.</h3>
     }
 
+    <div class="mt-4">
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
+        <a asp-action="Browse" asp-route-id="@Model.PlatformId">Back to @Model.PlatformName games</a>
+    </div>
+
 </main>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
-    <a asp-action="Browse" asp-route-id="@Model.PlatformId">Back to @Model.PlatformName games</a>
-</div>
+

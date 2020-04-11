@@ -6,6 +6,7 @@
 
     using GameCollectorsHub.Data.Common.Repositories;
     using GameCollectorsHub.Data.Models;
+    using GameCollectorsHub.Web.ViewModels.Console;
     using GameCollectorsHub.Web.ViewModels.Game;
 
     public class GameService : IGameService
@@ -44,15 +45,15 @@
             var games = this.repository.All()
                 .Where(a => a.Platform.Id == id)
                 .Select(a => new ListGameDetailsViewModel
-            {
-                Id = a.Id,
-                Name = a.Name,
-                ImgUrl = a.ImageUrl,
-                Developer = a.Developer,
-                Publisher = a.Publisher,
-                ReleaseDate = a.ReleaseDate,
-                PlatformName = a.Platform.Name,
-            }).OrderBy(a => a.Name).ToList();
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    ImgUrl = a.ImageUrl,
+                    Developer = a.Developer,
+                    Publisher = a.Publisher,
+                    ReleaseDate = a.ReleaseDate,
+                    PlatformName = a.Platform.Name,
+                }).OrderBy(a => a.Name).ToList();
 
             return games;
         }
@@ -120,6 +121,18 @@
             await this.repository.SaveChangesAsync();
 
             return game.PlatformId;
+        }
+
+        public IEnumerable<ConsoleLaunchTitlesViewModel> GetLaunchTitles(int id)
+        {
+            var launchGames = this.repository.All().Where(a => a.IsLaunchTitle == true && a.PlatformId == id).Select(a => new ConsoleLaunchTitlesViewModel
+            {
+                Id = a.Id,
+                Name = a.Name,
+                ImgUrl = a.ImageUrl,
+            }).OrderBy(a => a.Name).ToList();
+
+            return launchGames;
         }
     }
 }

@@ -10,5 +10,11 @@
         public Task<int> CreateConsoleAsync(AddConsoleInputModel model);
 
         public IEnumerable<ListConsoleDetailsViewModel> GetAllByPlatform(int id);
+
+        public ConsoleDetailsViewModel GetConsoleDetails(int id);
+
+        public Task EditConsoleAsync(AddConsoleInputModel model);
+
+        public Task<int> DeleteConsoleAsync(int id);
     }
 }

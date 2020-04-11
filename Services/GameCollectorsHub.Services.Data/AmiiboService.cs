@@ -65,5 +65,48 @@
 
             return amiibos;
         }
+
+        public async Task EditAmiiboAsync(AddAmiiboInputModel model)
+        {
+            var amiibo = this.amiiboRepository.All().Where(a => a.Id == model.Id).FirstOrDefault();
+
+            amiibo.Name = model.Name;
+            amiibo.Description = model.Description;
+            amiibo.ImgUrl = model.ImgUrl;
+            amiibo.ReleaseDate = model.ReleaseDate;
+            amiibo.AmiiboSeriesId = model.AmiiboSeriesId;
+            amiibo.Franchise = model.Franchise;
+
+            this.amiiboRepository.Update(amiibo);
+            await this.amiiboRepository.SaveChangesAsync();
+        }
+
+        public AmiiboDetailsViewModel GetAmiiboDetails(int id)
+        {
+            var amiibo = this.amiiboRepository.All().Where(a => a.Id == id).Select(a => new AmiiboDetailsViewModel
+            {
+                Id = a.Id,
+                Name = a.Name,
+                Description = a.Description,
+                ImgUrl = a.ImgUrl,
+                AmiiboSeriesId = a.AmiiboSeriesId,
+                ReleaseDate = a.ReleaseDate,
+                AmiiboSeriesName = a.AmiiboSeries.Name,
+                Franchise = a.Franchise,
+            }).FirstOrDefault();
+
+            return amiibo;
+        }
+
+        public async Task<int> DeleteAmiiboAsync(int id)
+        {
+            var amiibo = this.amiiboRepository.All().Where(a => a.Id == id).FirstOrDefault();
+
+            this.amiiboRepository.Delete(amiibo);
+
+            await this.amiiboRepository.SaveChangesAsync();
+
+            return amiibo.AmiiboSeriesId;
+        }
     }
 }

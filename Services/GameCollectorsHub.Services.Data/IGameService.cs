@@ -3,7 +3,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using GameCollectorsHub.Web.ViewModels.Console;
     using GameCollectorsHub.Web.ViewModels.Game;
 
     public interface IGameService
@@ -17,5 +17,7 @@
         public Task EditGameAsync(AddGameInputModel model);
 
         public Task<int> DeleteGameAsync(int id);
+
+        public IEnumerable<ConsoleLaunchTitlesViewModel> GetLaunchTitles(int id);
     }
 }

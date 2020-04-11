@@ -1,0 +1,58 @@
+﻿@model GameCollectorsHub.Web.ViewModels.Amiibo.AmiiboDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark row">
+        <div class="col-md-6 px-0">
+            <img src="@Model.ImgUrl" style="max-width: 400px;" />
+        </div>
+        <div class="col-md-6 px-0">
+            <h1 class="display-4 font-italic">@Model.Name</h1>
+            <div class="row">
+                <div class="col-md-6 px-0">
+                        <a asp-action="Browse" asp-route-id="@Model.AmiiboSeriesId"><p class="lead">@Model.AmiiboSeriesName series</p></a>
+                        <p class="lead">Release Date: @Model.ReleaseDate.ToShortDateString()</p>
+                        <div>
+                            <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Collection!</button>
+                            <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Wishlist!</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main role="main" class="container bg-light">
+    <div class="row">
+        <div class="col-md-8 blog-main">
+            <h2 class="pb-4 mb-4 font-italic border-bottom">
+                Overview
+            </h2>
+            <h2 class="pb-4 mb-4 font-italic border-bottom mt-4">
+                About
+            </h2>
+
+            <p>@Model.Description</p>
+
+            <div class="mt-4">
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
+                <a asp-action="Browse" asp-route-id="@Model.AmiiboSeriesId">Back to @Model.AmiiboSeriesName Amiibos</a>
+            </div>
+        </div>
+
+        <aside class="col-md-4 blog-sidebar">
+
+            <div class="p-3">
+                <h4 class="font-italic">Empty</h4>
+                <p>@Model.Description</p>
+            </div>
+        </aside>
+    </div>
+
+</main>
+

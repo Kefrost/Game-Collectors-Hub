@@ -1,0 +1,61 @@
+﻿@model GameCollectorsHub.Web.ViewModels.Console.ConsoleDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark row">
+        <div class="col-md-6 px-0">
+            <img src="@Model.ImgUrl" style="max-width: 350px; max-height: 350px" />
+        </div>
+        <div class="col-md-6 px-0">
+            <h1 class="display-4 font-italic">@Model.Name</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="lead">Model:</p>
+                    <p class="lead">Initial Price:</p>
+                    <p class="lead">Released Games:</p>
+                    <p class="lead">Release Date:</p>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Collection!</button>
+                </div>
+                <div class="col-md-6">
+                    <p class="lead">@Model.Model</p>
+                    <p class="lead">@Model.InitialPrice€</p>
+                    <p class="lead">@Model.GamesReleased</p>
+                    <p class="lead">@Model.ReleaseDate.ToShortDateString()</p>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Wishlist!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main role="main" class="container bg-light">
+    <h2 class="pb-4 mb-4 font-italic border-bottom">
+        Overview
+    </h2>
+    <h2 class="pb-4 mb-4 font-italic border-bottom mt-4">
+        About The Console
+    </h2>
+
+    <p>@Model.Description</p>
+
+    <h2 class="pb-4 mb-4 font-italic border-bottom">
+        Launch Titles
+    </h2>
+
+    @if (!Model.LauchTitles.Any())
+    {
+        <h3 class=" font-italic text-center">Sorry, no launch titles for @Model.Name yet.</h3>
+    }
+
+    <div class="mt-4">
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
+        <a asp-action="Browse" asp-route-id="@Model.PlatformId">Back to @Model.Name consoles</a>
+    </div>
+
+</main>
+

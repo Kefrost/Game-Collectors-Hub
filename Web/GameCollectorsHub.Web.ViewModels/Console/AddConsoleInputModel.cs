@@ -5,6 +5,8 @@
 
     public class AddConsoleInputModel
     {
+        public int Id { get; set; }
+
         [Required]
         [MinLength(3)]
         public string Name { get; set; }
@@ -19,6 +21,9 @@
         [Required]
         [Range(1d, double.MaxValue)]
         public decimal InitialPrice { get; set; }
+
+        [Required]
+        public int GamesReleased { get; set; }
 
         [Required]
         [MinLength(3)]

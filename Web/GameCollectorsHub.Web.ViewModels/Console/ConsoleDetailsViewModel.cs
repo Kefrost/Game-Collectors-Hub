@@ -1,8 +1,10 @@
-﻿namespace GameCollectorsHub.Data.Models
-{
-    using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-    public class GameConsole
+namespace GameCollectorsHub.Web.ViewModels.Console
+{
+    public class ConsoleDetailsViewModel
     {
         public int Id { get; set; }
 
@@ -14,14 +16,14 @@
 
         public decimal InitialPrice { get; set; }
 
-        public string Description { get; set; }
-
         public int GamesReleased { get; set; }
+
+        public string Description { get; set; }
 
         public string Model { get; set; }
 
         public int PlatformId { get; set; }
 
-        public virtual Platform Platform { get; set; }
+        public IEnumerable<ConsoleLaunchTitlesViewModel> LauchTitles { get; set; }
     }
 }

@@ -5,51 +5,52 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="container bg-light">
+    <h1>Create</h1>
 
-<h4>Amiibo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImgUrl" class="control-label"></label>
-                <input asp-for="ImgUrl" class="form-control" />
-                <span asp-validation-for="ImgUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Franchise" class="control-label"></label>
-                <input asp-for="Franchise" class="form-control" />
-                <span asp-validation-for="Franchise" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReleaseDate" class="control-label"></label>
-                <input asp-for="ReleaseDate" class="form-control" />
-                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AmiiboSeriesId" class="control-label"></label>
-                <select asp-for="AmiiboSeriesId" class="form-control" asp-items="@Html.GetEnumSelectList<GameCollectorsHub.Web.ViewModels.Amiibo.AmiiboSeriesEnum>()"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <h4>Amiibo</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImgUrl" class="control-label"></label>
+                    <input asp-for="ImgUrl" class="form-control" />
+                    <span asp-validation-for="ImgUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Franchise" class="control-label"></label>
+                    <input asp-for="Franchise" class="form-control" />
+                    <span asp-validation-for="Franchise" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ReleaseDate" class="control-label"></label>
+                    <input asp-for="ReleaseDate" class="form-control" />
+                    <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AmiiboSeriesId" class="control-label"></label>
+                    <select asp-for="AmiiboSeriesId" class="form-control" asp-items="@Html.GetEnumSelectList<GameCollectorsHub.Web.ViewModels.Amiibo.AmiiboSeriesEnum>()"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

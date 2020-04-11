@@ -31,6 +31,8 @@
 
         public int PlatformId { get; set; }
 
+        public bool IsLaunchTitle { get; set; }
+
         public virtual Platform Platform { get; set; }
 
         public virtual ICollection<GamesReview> GamesReviews { get; set; }

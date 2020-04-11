@@ -12,5 +12,11 @@
         public Task<int> CreateAmiiboAsync(AddAmiiboInputModel model);
 
         public IEnumerable<AllAmiiboDetailsViewModel> GetAllBySeries(int id);
+
+        public Task EditAmiiboAsync(AddAmiiboInputModel model);
+
+        public AmiiboDetailsViewModel GetAmiiboDetails(int id);
+
+        public Task<int> DeleteAmiiboAsync(int id);
     }
 }

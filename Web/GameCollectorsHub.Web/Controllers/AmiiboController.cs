@@ -29,7 +29,9 @@
 
         public IActionResult Details(int id)
         {
-            return this.View();
+            var viewModel = this.service.GetAmiiboDetails(id);
+
+            return this.View(viewModel);
         }
 
         public IActionResult Create()
@@ -57,6 +59,63 @@
             var viewModel = new AllAmiibosViewModel { Amiibos = amiibos };
 
             return this.View(viewModel);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var amiibo = this.service.GetAmiiboDetails(id);
+
+            var viewModel = new AddAmiiboInputModel
+            {
+                Id = id,
+                Name = amiibo.Name,
+                Description = amiibo.Description,
+                ImgUrl = amiibo.ImgUrl,
+                ReleaseDate = amiibo.ReleaseDate,
+                AmiiboSeriesId = amiibo.AmiiboSeriesId,
+                Franchise = amiibo.Franchise,
+            };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AddAmiiboInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            await this.service.EditAmiiboAsync(input);
+
+            return this.RedirectToAction("Details", new { id = input.Id });
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var amiibo = this.service.GetAmiiboDetails(id);
+
+            var viewModel = new AddAmiiboInputModel
+            {
+                Id = id,
+                Name = amiibo.Name,
+                Description = amiibo.Description,
+                Franchise = amiibo.Franchise,
+                ImgUrl = amiibo.ImgUrl,
+                ReleaseDate = amiibo.ReleaseDate,
+                AmiiboSeriesId = amiibo.AmiiboSeriesId,
+            };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirm(int id)
+        {
+            var platformId = await this.service.DeleteAmiiboAsync(id);
+
+            return this.RedirectToAction("Browse", new { id = platformId });
         }
     }
 }

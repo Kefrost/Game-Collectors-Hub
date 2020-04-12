@@ -17,8 +17,9 @@
                     <p class="lead">System: @Model.PlatformName</p>
                     <p class="lead">Publisher: @Model.Publisher</p>
                     <p class="lead">Developer: @Model.Developer</p>
-                    <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Collection!</button>
-                    <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Wishlist!</button>
+                    <a class="btn btn-primary btn-lg btn-block" asp-action="AddToCollection" asp-route-gameId="@Model.Id">Add To Collection!</a>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Add to Your Wishlist!</button>
+                    
                 </div>
                 <div class="col-md-6">
                     <p class="lead">Our Review Score: @Model.OurReviewScore </p>

@@ -1,22 +1,26 @@
 ﻿namespace GameCollectorsHub.Web.Controllers
     {
     using System.Threading.Tasks;
-
+    using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Web.ViewModels.Game;
+    using GameCollectorsHub.Web.ViewModels.GameCollection;
     using GameCollectorsHub.Web.ViewModels.Platform;
-
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class GameController : Controller
     {
         private readonly IPlatformService platform;
         private readonly IGameService gameService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public GameController(IPlatformService platform, IGameService gameService)
+        public GameController(IPlatformService platform, IGameService gameService, UserManager<ApplicationUser> userManager)
         {
             this.platform = platform;
             this.gameService = gameService;
+            this.userManager = userManager;
         }
 
         public IActionResult Platforms()
@@ -128,6 +132,27 @@
             var platformId = await this.gameService.DeleteGameAsync(id);
 
             return this.RedirectToAction("Browse", new { id = platformId });
+        }
+
+        [Authorize]
+        public IActionResult AddToCollection(int gameId)
+        {
+            var game = this.gameService.GetGameDetails(gameId);
+
+            var viewModel = new AddGameToCollectionInputModel { GameId = gameId, GameImgUrl = game.ImageUrl, GameName = game.Name, };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddToCollection(AddGameToCollectionInputModel model)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            await this.gameService.AddGameToCollectionAsync(model.GameId, user.Id, model.PricePaid, model.BoxIncluded, model.ManualIncluded, model.IsItNewAndSealed);
+
+            return this.RedirectToAction("Details", new { id = model.GameId });
         }
     }
 }

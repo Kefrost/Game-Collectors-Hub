@@ -44,6 +44,8 @@
 
         public DbSet<GamesReview> GamesReviews { get; set; }
 
+        public DbSet<UserGameCollection> UserGamesCollection { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -76,6 +78,9 @@
 
             builder.Entity<GamesReview>()
                 .HasKey(a => new { a.GameId, a.ReviewId });
+
+            builder.Entity<UserGameCollection>()
+                .HasKey(a => new { a.UserId, a.GameId });
 
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes

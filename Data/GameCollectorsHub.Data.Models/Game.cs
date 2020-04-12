@@ -9,6 +9,7 @@
         {
             this.Ratings = new HashSet<Rating>();
             this.GamesReviews = new HashSet<GamesReview>();
+            this.UserGamesCollection = new HashSet<UserGameCollection>();
         }
 
         public int Id { get; set; }
@@ -38,5 +39,7 @@
         public virtual ICollection<GamesReview> GamesReviews { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }
+
+        public virtual ICollection<UserGameCollection> UserGamesCollection { get; set; }
     }
 }

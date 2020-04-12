@@ -18,6 +18,7 @@ namespace GameCollectorsHub.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Ratings = new HashSet<Rating>();
             this.Comments = new HashSet<Comment>();
+            this.UserGamesCollection = new HashSet<UserGameCollection>();
         }
 
         // Audit info
@@ -39,5 +40,7 @@ namespace GameCollectorsHub.Data.Models
         public virtual ICollection<Rating> Ratings { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
+
+        public virtual ICollection<UserGameCollection> UserGamesCollection { get; set; }
     }
 }

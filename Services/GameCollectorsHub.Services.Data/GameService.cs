@@ -8,6 +8,7 @@
     using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Web.ViewModels.Console;
     using GameCollectorsHub.Web.ViewModels.Game;
+    using GameCollectorsHub.Web.ViewModels.GameCollection;
 
     public class GameService : IGameService
     {
@@ -133,6 +134,21 @@
             }).OrderBy(a => a.Name).ToList();
 
             return launchGames;
+        }
+
+        public async Task AddGameToCollectionAsync(int gameId, string userId, decimal pricePaid, bool boxIncluded, bool manualIncluded, bool isItNewAndSealed)
+        {
+            this.repository.All().Where(a => a.Id == gameId).FirstOrDefault().UserGamesCollection.Add(new UserGameCollection
+            {
+                GameId = gameId,
+                UserId = userId,
+                PricePaid = pricePaid,
+                BoxIncluded = boxIncluded,
+                ManualIncluded = manualIncluded,
+                IsItNewAndSealed = isItNewAndSealed,
+            });
+
+            await this.repository.SaveChangesAsync();
         }
     }
 }

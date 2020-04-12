@@ -19,5 +19,7 @@
         public Task<int> DeleteGameAsync(int id);
 
         public IEnumerable<ConsoleLaunchTitlesViewModel> GetLaunchTitles(int id);
+
+        public Task AddGameToCollectionAsync(int gameId, string userId, decimal pricePaid, bool boxIncluded, bool manualIncluded, bool isItNewAndSealed);
     }
 }

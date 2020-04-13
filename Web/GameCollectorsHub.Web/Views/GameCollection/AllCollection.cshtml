@@ -6,9 +6,9 @@
 
     <div class="container bg-light">
         <h1>Your Game Collection</h1>
-        <h3>Collection Value: @Model.CollectionValue</h3>
-        <h3>Collection Cost: @Model.TotalYouPaid</h3>
-        <h3>Items in collection: @Model.ItemsInCollection</h3>
+        <h4>Collection Value: @Model.CollectionValue.ToString("F2") $</h4>
+        <h4>Collection Cost: @Model.TotalYouPaid.ToString("F2") $</h4>
+        <h4>Items in collection: @Model.ItemsInCollection</h4>
 
         <div class="table-responsive">
             <table class="table table-striped table-sm">
@@ -25,13 +25,13 @@
                     @foreach (var game in Model.GameCollectionItems)
                     {
                         <tr>
-                            <td>@game.GameImgUrl</td>
-                            <td>@game.GameName (@game.PlatformName)</td>
-                            <td>@game.Cost</td>
-                            <td>@game.Value</td>
+                            <td><img src="@game.GameImgUrl" style="max-height: 85px; max-width: 85px;" /></td>
+                            <td><a asp-action="Details" asp-route-userId="@Model.UserId" asp-route-gameId="@game.GameId">@game.GameName (@game.PlatformName)</a></td>
+                            <td>@game.Cost.ToString("F2") $</td>
+                            <td>@game.Value.ToString("F2") $</td>
                             <td>
-                                <a>Edit Details</a>
-                                <a>Remove</a>
+                                <a asp-action="Edit">Edit Details</a> | 
+                                <a asp-action="Delete">Remove</a>
                             </td>
                         </tr>
                     }

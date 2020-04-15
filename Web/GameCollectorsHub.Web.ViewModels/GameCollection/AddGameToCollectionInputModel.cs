@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace GameCollectorsHub.Web.ViewModels.GameCollection
+﻿namespace GameCollectorsHub.Web.ViewModels.GameCollection
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class AddGameToCollectionInputModel
     {
         public string UserId { get; set; }

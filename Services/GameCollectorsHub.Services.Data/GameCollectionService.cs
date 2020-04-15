@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using GameCollectorsHub.Data.Common.Repositories;
     using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Web.ViewModels.GameCollection;
@@ -46,7 +47,6 @@
             else if (game.BoxIncluded)
             {
                 includes = "Game, Box";
-
             }
             else if (game.ManualIncluded)
             {
@@ -64,7 +64,6 @@
                 Value = a.PricePaid,
                 WhatIncludes = includes,
             }).FirstOrDefault();
-
 
             return gameReturn;
         }
@@ -96,7 +95,6 @@
                 PricePaid = a.PricePaid,
                 UserId = userId,
             }).FirstOrDefault();
-
 
             return gameReturn;
         }

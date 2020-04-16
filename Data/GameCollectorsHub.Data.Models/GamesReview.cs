@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameCollectorsHub.Data.Models
+﻿namespace GameCollectorsHub.Data.Models
 {
     public class GamesReview
     {

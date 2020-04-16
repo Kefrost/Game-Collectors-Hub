@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameCollectorsHub.Web.ViewModels.GameCollection
+﻿namespace GameCollectorsHub.Web.ViewModels.GameCollection
 {
+    using System.Collections.Generic;
+
     public class AllGameCollectionViewModel
     {
         public string UserId { get; set; }

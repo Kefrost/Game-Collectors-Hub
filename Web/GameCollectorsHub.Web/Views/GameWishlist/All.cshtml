@@ -6,9 +6,7 @@
 
     <div class="container bg-light">
         <h1>Your Game Collection</h1>
-        <h4>Collection Value: @Model.CollectionValue.ToString("F2") $</h4>
-        <h4>Collection Cost: @Model.TotalYouPaid.ToString("F2") $</h4>
-        <h4>Items in collection: @Model.ItemsInCollection</h4>
+        <h4>Items in wishlist: @Model.ItemsInCollection</h4>
 
         <div class="table-responsive">
             <table class="table table-striped table-sm">
@@ -16,8 +14,6 @@
                     <tr>
                         <th>Image</th>
                         <th>Game Title</th>
-                        <th>Cost</th>
-                        <th>Value</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -26,12 +22,10 @@
                     {
                         <tr>
                             <td><img src="@game.GameImgUrl" style="max-height: 85px; max-width: 85px;" /></td>
-                            <td><a asp-action="Details" asp-route-userId="@Model.UserId" asp-route-gameId="@game.GameId">@game.GameName (@game.PlatformName)</a></td>
-                            <td>@game.Cost.ToString("F2") $</td>
-                            <td>@game.Value.ToString("F2") $</td>
+                            <td><a asp-action="Details" asp-controller="Game" asp-route-id="@game.GameId">@game.GameName (@game.PlatformName)</a></td>
                             <td>
-                                <a asp-action="Edit" asp-route-userId="@Model.UserId" asp-route-gameId="@game.GameId">Edit Details</a> | 
-                                <a asp-action="Delete" asp-route-userId="@Model.UserId" asp-route-gameId="@game.GameId">Remove</a>
+                                <a asp-action="Edit" asp-controller="GameCollection" asp-route-gameId="@game.GameId">Add to Collection</a> | 
+                                <a asp-action="Delete" asp-route-gameId="@game.GameId">Remove</a>
                             </td>
                         </tr>
                     }

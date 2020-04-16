@@ -10,16 +10,16 @@
 
     public class GameCollectionService : IGameCollectionService
     {
-        private readonly IRepository<UserGameCollection> reporistory;
+        private readonly IRepository<UserGameCollection> repository;
 
-        public GameCollectionService(IRepository<UserGameCollection> reporistory)
+        public GameCollectionService(IRepository<UserGameCollection> repository)
         {
-            this.reporistory = reporistory;
+            this.repository = repository;
         }
 
         public ICollection<GameCollectionItemViewModel> ListAllGameCollection(string userId)
         {
-            var games = this.reporistory.All().Where(a => a.UserId == userId).Select(a => new GameCollectionItemViewModel
+            var games = this.repository.All().Where(a => a.UserId == userId && a.IsInWishlist == false).Select(a => new GameCollectionItemViewModel
             {
                 Cost = a.PricePaid,
                 GameId = a.GameId,
@@ -34,11 +34,26 @@
             return games;
         }
 
+        public ICollection<GameCollectionItemViewModel> ListAllGameWishlist(string userId)
+        {
+            var games = this.repository.All().Where(a => a.UserId == userId && a.IsInWishlist == true).Select(a => new GameCollectionItemViewModel
+            {
+                GameId = a.GameId,
+                GameName = a.Game.Name,
+                GameImgUrl = a.Game.ImageUrl,
+                PlatformName = a.Game.Platform.Name,
+
+                // TODO
+            }).OrderBy(a => a.GameName).ToList();
+
+            return games;
+        }
+
         public GameCollectionDetailsViewModel GetGameCollectionDetails(string userId, int gameId)
         {
             var includes = "Game only";
 
-            var game = this.reporistory.All().Where(a => a.GameId == gameId && a.UserId == userId).FirstOrDefault();
+            var game = this.repository.All().Where(a => a.GameId == gameId && a.UserId == userId).FirstOrDefault();
 
             if (game.BoxIncluded && game.ManualIncluded)
             {
@@ -53,7 +68,7 @@
                 includes = "Game, Manual";
             }
 
-            var gameReturn = this.reporistory.All().Where(a => a.GameId == gameId && a.UserId == userId).Select(a => new GameCollectionDetailsViewModel
+            var gameReturn = this.repository.All().Where(a => a.GameId == gameId && a.UserId == userId).Select(a => new GameCollectionDetailsViewModel
             {
                 GameId = a.GameId,
                 GameImgUrl = a.Game.ImageUrl,
@@ -70,21 +85,22 @@
 
         public async Task EditGameInCollection(int gameId, string userId, decimal pricePaid, bool boxIncluded, bool manualIncluded, bool isItNewAndSealed)
         {
-            var game = this.reporistory.All().Where(a => a.UserId == userId && a.GameId == gameId).FirstOrDefault();
+            var game = this.repository.All().Where(a => a.UserId == userId && a.GameId == gameId).FirstOrDefault();
 
             game.PricePaid = pricePaid;
             game.BoxIncluded = boxIncluded;
             game.ManualIncluded = manualIncluded;
             game.IsItNewAndSealed = isItNewAndSealed;
+            game.IsInWishlist = false;
 
-            this.reporistory.Update(game);
+            this.repository.Update(game);
 
-            await this.reporistory.SaveChangesAsync();
+            await this.repository.SaveChangesAsync();
         }
 
         public AddGameToCollectionInputModel GetGameCollectionInputDetails(string userId, int gameId)
         {
-            var gameReturn = this.reporistory.All().Where(a => a.GameId == gameId && a.UserId == userId).Select(a => new AddGameToCollectionInputModel
+            var gameReturn = this.repository.All().Where(a => a.GameId == gameId && a.UserId == userId).Select(a => new AddGameToCollectionInputModel
             {
                 GameId = a.GameId,
                 GameImgUrl = a.Game.ImageUrl,
@@ -97,6 +113,15 @@
             }).FirstOrDefault();
 
             return gameReturn;
+        }
+
+        public async Task DeleteGameInCollectionAsync(string userId, int gameId)
+        {
+            var game = this.repository.All().Where(a => a.UserId == userId && a.GameId == gameId).FirstOrDefault();
+
+            this.repository.Delete(game);
+
+            await this.repository.SaveChangesAsync();
         }
     }
 }

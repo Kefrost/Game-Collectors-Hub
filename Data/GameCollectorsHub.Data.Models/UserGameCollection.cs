@@ -21,5 +21,7 @@
         public bool ManualIncluded { get; set; }
 
         public bool IsItNewAndSealed { get; set; }
+
+        public bool IsInWishlist { get; set; }
     }
 }

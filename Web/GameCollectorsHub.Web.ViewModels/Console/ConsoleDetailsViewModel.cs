@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameCollectorsHub.Web.ViewModels.Console
+﻿namespace GameCollectorsHub.Web.ViewModels.Console
 {
+    using System;
+    using System.Collections.Generic;
+
     public class ConsoleDetailsViewModel
     {
         public int Id { get; set; }

@@ -1,0 +1,56 @@
+﻿@model GameCollectorsHub.Web.ViewModels.GameCollection.AddGameToCollectionInputModel
+
+@{
+    ViewData["Title"] = "AddToCollection";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="container bg-light">
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <img src="@Model.GameImgUrl" style="max-height: 150px; max-width: 150px" />
+            </div>
+            <div class="col-md-3">
+                <h4>Add to your collection:</h4>
+                <h2>@Model.GameName</h2>
+            </div>
+        </div>
+        <hr />
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <form asp-action="Edit" asp-controller="GameCollection">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="GameId" hidden value="@Model.GameId" class="form-control" />
+                    <div class="form-group">
+                        <label asp-for="PricePaid" class="control-label"></label>
+                        <input asp-for="PricePaid" class="form-control" />
+                        <span asp-validation-for="PricePaid" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsItNewAndSealed" /> @Html.DisplayNameFor(model => model.IsItNewAndSealed)
+                        </label>
+                    </div>
+                    <h4 class="mt-2"><b>What's included?</b></h4>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="BoxIncluded" /> @Html.DisplayNameFor(model => model.BoxIncluded)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="ManualIncluded" /> @Html.DisplayNameFor(model => model.ManualIncluded)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Edit" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

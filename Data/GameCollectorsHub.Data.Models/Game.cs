@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class Game
     {
@@ -14,24 +15,33 @@
 
         public int Id { get; set; }
 
+        [Required]
+        [MinLength(3)]
         public string Name { get; set; }
 
+        [Required]
         public string ImageUrl { get; set; }
 
+        [Required]
         public DateTime ReleaseDate { get; set; }
 
+        [Required]
         public string Genre { get; set; }
 
         public string Series { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
+        [Required]
         public string Publisher { get; set; }
 
+        [Required]
         public string Developer { get; set; }
 
         public int PlatformId { get; set; }
 
+        [Required]
         public bool IsLaunchTitle { get; set; }
 
         public virtual Platform Platform { get; set; }

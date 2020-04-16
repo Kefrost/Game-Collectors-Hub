@@ -3,6 +3,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using GameCollectorsHub.Web.ViewModels.Console;
     using GameCollectorsHub.Web.ViewModels.Game;
 
@@ -21,5 +22,7 @@
         public IEnumerable<ConsoleLaunchTitlesViewModel> GetLaunchTitles(int id);
 
         public Task AddGameToCollectionAsync(int gameId, string userId, decimal pricePaid, bool boxIncluded, bool manualIncluded, bool isItNewAndSealed);
+
+        public Task AddGameToWishlistAsync(int gameId, string userId);
     }
 }

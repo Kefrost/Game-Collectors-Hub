@@ -15,8 +15,8 @@
             <p class="lead">Your Cost: @Model.Cost $</p>
             <p class="lead">Includes: @Model.WhatIncludes</p>
             <p class="lead">Condition: @Model.Condition</p>
-            <a asp-action="Edit">Edit Details</a> |
-            <a asp-action="Delete">Remove</a>
+            <a asp-action="Edit" asp-route-userId="@Model.UserId" asp-route-gameId="@Model.GameId">Edit Details</a> |
+            <a asp-action="Delete" asp-route-userId="@Model.UserId" asp-route-gameId="@Model.GameId">Remove</a>
         </div>
     </div>
 </div>

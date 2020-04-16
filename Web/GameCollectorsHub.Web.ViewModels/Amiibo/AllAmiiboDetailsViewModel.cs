@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace GameCollectorsHub.Web.ViewModels.Amiibo
+﻿namespace GameCollectorsHub.Web.ViewModels.Amiibo
 {
+    using System;
+
     public class AllAmiiboDetailsViewModel
     {
         public int Id { get; set; }

@@ -1,6 +1,7 @@
 ﻿namespace GameCollectorsHub.Web.Controllers
     {
     using System.Threading.Tasks;
+
     using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Web.ViewModels.Game;
@@ -153,6 +154,17 @@
             await this.gameService.AddGameToCollectionAsync(model.GameId, user.Id, model.PricePaid, model.BoxIncluded, model.ManualIncluded, model.IsItNewAndSealed);
 
             return this.RedirectToAction("Details", new { id = model.GameId });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddToWishlist(int gameId)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            await this.gameService.AddGameToWishlistAsync(gameId, user.Id);
+
+            return this.Redirect("/GameWishlist/All");
         }
     }
 }

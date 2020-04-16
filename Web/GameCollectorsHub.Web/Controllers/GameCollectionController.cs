@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Web.ViewModels.GameCollection;
@@ -47,18 +48,24 @@
             return this.RedirectToAction("AllCollection", new { userId = user.Id });
         }
 
-        public IActionResult Details(string userId, int gameId)
+        public async Task<IActionResult> Details(string userId, int gameId)
         {
+            var user = await this.userManager.GetUserAsync(this.User);
+
             var viewModel = this.service.GetGameCollectionDetails(userId, gameId);
+
+            viewModel.UserId = user.Id;
 
             return this.View(viewModel);
         }
 
-        public IActionResult Edit(string userId, int gameId)
+        public async Task<IActionResult> Edit(int gameId)
         {
-            var game = this.service.GetGameCollectionInputDetails(userId, gameId);
+            var user = await this.userManager.GetUserAsync(this.User);
 
-            var viewModel = new AddGameToCollectionInputModel 
+            var game = this.service.GetGameCollectionInputDetails(user.Id, gameId);
+
+            var viewModel = new AddGameToCollectionInputModel
             {
                 GameId = gameId,
                 GameImgUrl = game.GameImgUrl,
@@ -67,7 +74,7 @@
                 IsItNewAndSealed = game.IsItNewAndSealed,
                 ManualIncluded = game.ManualIncluded,
                 PricePaid = game.PricePaid,
-                UserId = userId,
+                UserId = user.Id,
             };
 
             return this.View(viewModel);
@@ -76,9 +83,42 @@
         [HttpPost]
         public async Task<IActionResult> Edit(AddGameToCollectionInputModel model)
         {
-            await this.service.EditGameInCollection(model.GameId, model.UserId, model.PricePaid, model.BoxIncluded, model.ManualIncluded, model.IsItNewAndSealed);
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            await this.service.EditGameInCollection(model.GameId, user.Id, model.PricePaid, model.BoxIncluded, model.ManualIncluded, model.IsItNewAndSealed);
 
             return this.RedirectToAction("Details", new { userId = model.UserId, gameId = model.GameId });
+        }
+
+        public async Task<IActionResult> Delete(string userId, int gameId)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var game = this.service.GetGameCollectionInputDetails(userId, gameId);
+
+            var viewModel = new AddGameToCollectionInputModel
+            {
+                GameId = game.GameId,
+                UserId = user.Id,
+                BoxIncluded = game.BoxIncluded,
+                GameImgUrl = game.GameImgUrl,
+                GameName = game.GameName,
+                IsItNewAndSealed = game.IsItNewAndSealed,
+                ManualIncluded = game.ManualIncluded,
+                PricePaid = game.PricePaid,
+            };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirm(int gameId)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            await this.service.DeleteGameInCollectionAsync(user.Id, gameId);
+
+            return this.RedirectToAction("AllCollection", new { userId = user.Id });
         }
     }
 }

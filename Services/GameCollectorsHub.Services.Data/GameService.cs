@@ -13,10 +13,12 @@
     public class GameService : IGameService
     {
         private readonly IRepository<Game> repository;
+        private readonly IRepository<UserGameCollection> collectionRepository;
 
-        public GameService(IRepository<Game> repository)
+        public GameService(IRepository<Game> repository, IRepository<UserGameCollection> collectionRepository)
         {
             this.repository = repository;
+            this.collectionRepository = collectionRepository;
         }
 
         public async Task<int> CreateGameAsync(AddGameInputModel model)
@@ -138,17 +140,60 @@
 
         public async Task AddGameToCollectionAsync(int gameId, string userId, decimal pricePaid, bool boxIncluded, bool manualIncluded, bool isItNewAndSealed)
         {
-            this.repository.All().Where(a => a.Id == gameId).FirstOrDefault().UserGamesCollection.Add(new UserGameCollection
+            if (this.collectionRepository.All().Where(a => a.GameId == gameId && a.UserId == userId).Any())
             {
-                GameId = gameId,
-                UserId = userId,
-                PricePaid = pricePaid,
-                BoxIncluded = boxIncluded,
-                ManualIncluded = manualIncluded,
-                IsItNewAndSealed = isItNewAndSealed,
-            });
+                var game = this.collectionRepository.All().Where(a => a.GameId == gameId && a.UserId == userId).FirstOrDefault();
 
-            await this.repository.SaveChangesAsync();
+                game.IsInWishlist = false;
+
+                this.collectionRepository.Update(game);
+
+                await this.collectionRepository.SaveChangesAsync();
+            }
+            else
+            {
+                this.repository.All().Where(a => a.Id == gameId).FirstOrDefault().UserGamesCollection.Add(new UserGameCollection
+                {
+                    GameId = gameId,
+                    UserId = userId,
+                    PricePaid = pricePaid,
+                    BoxIncluded = boxIncluded,
+                    ManualIncluded = manualIncluded,
+                    IsItNewAndSealed = isItNewAndSealed,
+                    IsInWishlist = false,
+                });
+
+                await this.repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task AddGameToWishlistAsync(int gameId, string userId)
+        {
+            if (this.collectionRepository.All().Where(a => a.GameId == gameId && a.UserId == userId).Any())
+            {
+                var game = this.collectionRepository.All().Where(a => a.GameId == gameId && a.UserId == userId).FirstOrDefault();
+
+                game.IsInWishlist = true;
+
+                this.collectionRepository.Update(game);
+
+                await this.collectionRepository.SaveChangesAsync();
+            }
+            else
+            {
+                this.repository.All().Where(a => a.Id == gameId).FirstOrDefault().UserGamesCollection.Add(new UserGameCollection
+                {
+                    GameId = gameId,
+                    UserId = userId,
+                    PricePaid = 0,
+                    BoxIncluded = false,
+                    ManualIncluded = false,
+                    IsItNewAndSealed = false,
+                    IsInWishlist = true,
+                });
+
+                await this.repository.SaveChangesAsync();
+            }
         }
     }
 }

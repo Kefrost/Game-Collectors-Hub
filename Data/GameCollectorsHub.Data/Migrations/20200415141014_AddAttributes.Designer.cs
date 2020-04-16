@@ -4,14 +4,16 @@ using GameCollectorsHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GameCollectorsHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200415141014_AddAttributes")]
+    partial class AddAttributes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -486,9 +488,6 @@ namespace GameCollectorsHub.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("BoxIncluded")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsInWishlist")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsItNewAndSealed")

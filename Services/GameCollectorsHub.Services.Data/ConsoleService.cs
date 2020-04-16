@@ -11,11 +11,13 @@
     public class ConsoleService : IConsoleService
     {
         private readonly IRepository<GameConsole> repository;
+        private readonly IRepository<UserConsoleCollection> collectionRepository;
         private readonly IGameService gameService;
 
-        public ConsoleService(IRepository<GameConsole> repository, IGameService gameService)
+        public ConsoleService(IRepository<GameConsole> repository, IRepository<UserConsoleCollection> collectionRepository, IGameService gameService)
         {
             this.repository = repository;
+            this.collectionRepository = collectionRepository;
             this.gameService = gameService;
         }
 
@@ -99,6 +101,62 @@
             await this.repository.SaveChangesAsync();
 
             return console.PlatformId;
+        }
+
+        public async Task AddConsoleToCollectionAsync(int consoleId, string userId, decimal pricePaid, bool boxIncluded, bool isItNewAndSealed)
+        {
+            if (this.collectionRepository.All().Where(a => a.GameConsoleId == consoleId && a.UserId == userId).Any())
+            {
+                var console = this.collectionRepository.All().Where(a => a.GameConsoleId == consoleId && a.UserId == userId).FirstOrDefault();
+
+                console.IsInWishlist = false;
+
+                this.collectionRepository.Update(console);
+
+                await this.collectionRepository.SaveChangesAsync();
+            }
+            else
+            {
+                this.repository.All().Where(a => a.Id == consoleId).FirstOrDefault().UserConsolesCollection.Add(new UserConsoleCollection
+                {
+                    GameConsoleId = consoleId,
+                    UserId = userId,
+                    PricePaid = pricePaid,
+                    BoxIncluded = boxIncluded,
+                    IsItNewAndSealed = isItNewAndSealed,
+                    IsInWishlist = false,
+                });
+
+                await this.repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task AddConsoleToWishlistAsync(int consoleId, string userId)
+        {
+            if (this.collectionRepository.All().Where(a => a.GameConsoleId == consoleId && a.UserId == userId).Any())
+            {
+                var console = this.collectionRepository.All().Where(a => a.GameConsoleId == consoleId && a.UserId == userId).FirstOrDefault();
+
+                console.IsInWishlist = true;
+
+                this.collectionRepository.Update(console);
+
+                await this.collectionRepository.SaveChangesAsync();
+            }
+            else
+            {
+                this.repository.All().Where(a => a.Id == consoleId).FirstOrDefault().UserConsolesCollection.Add(new UserConsoleCollection
+                {
+                    GameConsoleId = consoleId,
+                    UserId = userId,
+                    PricePaid = 0,
+                    BoxIncluded = false,
+                    IsItNewAndSealed = false,
+                    IsInWishlist = true,
+                });
+
+                await this.repository.SaveChangesAsync();
+            }
         }
     }
 }

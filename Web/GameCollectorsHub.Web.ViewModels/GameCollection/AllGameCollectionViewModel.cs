@@ -4,8 +4,6 @@
 
     public class AllGameCollectionViewModel
     {
-        public string UserId { get; set; }
-
         public ICollection<GameCollectionItemViewModel> GameCollectionItems { get; set; }
 
         public decimal CollectionValue { get; set; }

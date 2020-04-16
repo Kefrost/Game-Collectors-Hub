@@ -1,23 +1,20 @@
-﻿namespace GameCollectorsHub.Web.ViewModels.GameCollection
+﻿namespace GameCollectorsHub.Web.ViewModels.ConsoleCollection
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class AddGameToCollectionInputModel
+    public class AddConsoleToCollectionInputModel
     {
-        public int GameId { get; set; }
+        public int ConsoleId { get; set; }
 
-        public string GameImgUrl { get; set; }
+        public string ConsoleImgUrl { get; set; }
 
-        public string GameName { get; set; }
+        public string ConsoleName { get; set; }
 
         [Display(Name = "Price You Paid")]
         public decimal PricePaid { get; set; }
 
         [Display(Name = "Box")]
         public bool BoxIncluded { get; set; }
-
-        [Display(Name = "Manual")]
-        public bool ManualIncluded { get; set; }
 
         [Display(Name = "Is it New and Sealed ?")]
         public bool IsItNewAndSealed { get; set; }

@@ -8,7 +8,7 @@
 <div class="container">
     <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark row">
         <div class="col-md-6 px-0">
-            <img src="@Model.ImgUrl" style="max-width: 350px; max-height: 350px" />
+            <img src="@Model.ImgUrl" style="max-width: 400px; max-height: 400px" />
         </div>
         <div class="col-md-6 px-0">
             <h1 class="display-4 font-italic">@Model.Name</h1>
@@ -18,14 +18,16 @@
                     <p class="lead">Initial Price:</p>
                     <p class="lead">Released Games:</p>
                     <p class="lead">Release Date:</p>
-                    <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Collection!</button>
+                    <a class="btn btn-primary btn-lg btn-block" asp-action="AddToCollection" asp-route-consoleId="@Model.Id">Add To Collection!</a>
+                    <form class="mt-2" asp-action="AddToWishlist" asp-route-consoleId="@Model.Id">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Add to Your Wishlist!</button>
+                    </form>
                 </div>
                 <div class="col-md-6">
                     <p class="lead">@Model.Model</p>
                     <p class="lead">@Model.InitialPrice€</p>
                     <p class="lead">@Model.GamesReleased</p>
                     <p class="lead">@Model.ReleaseDate.ToShortDateString()</p>
-                    <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Wishlist!</button>
                 </div>
             </div>
         </div>

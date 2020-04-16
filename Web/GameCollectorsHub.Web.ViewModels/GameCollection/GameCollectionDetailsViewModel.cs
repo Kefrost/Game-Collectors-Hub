@@ -2,8 +2,6 @@
 {
     public class GameCollectionDetailsViewModel
     {
-        public string UserId { get; set; }
-
         public int GameId { get; set; }
 
         public string GameName { get; set; }

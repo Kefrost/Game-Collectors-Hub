@@ -19,6 +19,8 @@ namespace GameCollectorsHub.Data.Models
             this.Ratings = new HashSet<Rating>();
             this.Comments = new HashSet<Comment>();
             this.UserGamesCollection = new HashSet<UserGameCollection>();
+            this.UserConsolesCollection = new HashSet<UserConsoleCollection>();
+            this.UserAmiibosCollection = new HashSet<UserAmiiboCollection>();
         }
 
         // Audit info
@@ -42,5 +44,9 @@ namespace GameCollectorsHub.Data.Models
         public virtual ICollection<Comment> Comments { get; set; }
 
         public virtual ICollection<UserGameCollection> UserGamesCollection { get; set; }
+
+        public virtual ICollection<UserConsoleCollection> UserConsolesCollection { get; set; }
+
+        public virtual ICollection<UserAmiiboCollection> UserAmiibosCollection { get; set; }
     }
 }

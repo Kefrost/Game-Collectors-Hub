@@ -46,6 +46,10 @@
 
         public DbSet<UserGameCollection> UserGamesCollection { get; set; }
 
+        public DbSet<UserConsoleCollection> UserConsolesCollection { get; set; }
+
+        public DbSet<UserAmiiboCollection> UserAmiibosCollection { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -81,6 +85,12 @@
 
             builder.Entity<UserGameCollection>()
                 .HasKey(a => new { a.UserId, a.GameId });
+
+            builder.Entity<UserConsoleCollection>()
+                .HasKey(a => new { a.UserId, a.GameConsoleId });
+
+            builder.Entity<UserAmiiboCollection>()
+                .HasKey(a => new { a.UserId, a.AmiiboId });
 
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes

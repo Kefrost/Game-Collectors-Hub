@@ -1,0 +1,38 @@
+﻿@model GameCollectorsHub.Web.ViewModels.ConsoleCollection.AllConsoleCollectionViewModel
+@{
+    ViewData["Title"] = "AllCollection";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container bg-light">
+        <h1>Your Console Wishlist</h1>
+        <h4>Items in wishlist: @Model.ItemsInCollection</h4>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Console Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var console in Model.ConsoleCollectionItems)
+                    {
+                        <tr>
+                            <td><img src="@console.ConsoleImgUrl" style="max-height: 85px; max-width: 85px;" /></td>
+                            <td><a asp-action="Details" asp-controller="Console" asp-route-id="@console.ConsoleId">@console.ConsoleName @console.Model</a></td>
+                            <td>
+                                <a asp-action="Edit" asp-controller="ConsoleCollection" asp-route-consoleId="@console.ConsoleId">Add to Collection</a> | 
+                                <a asp-action="Delete" asp-route-consoleId="@console.ConsoleId">Remove</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+

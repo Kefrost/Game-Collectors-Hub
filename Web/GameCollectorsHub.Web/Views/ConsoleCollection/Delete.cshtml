@@ -1,0 +1,38 @@
+﻿@model GameCollectorsHub.Web.ViewModels.ConsoleCollection.AddConsoleToCollectionInputModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container bg-light">
+        <h1>Are you sure you want to remove this console from your collection?</h1>
+        <div>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ConsoleName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ConsoleName)
+                </dd>
+                <dt class="col-sm-2">
+                    <a>Image</a>
+                </dt>
+                <dd class="col-sm-10">
+                    <img src="@Model.ConsoleImgUrl" style="max-height: 80px; max-width: 80px" />
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PricePaid)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PricePaid)
+                </dd>
+            </dl>
+
+            <form asp-action="DeleteConfirm" asp-route-consoleId="@Model.ConsoleId">
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                <a asp-action="Index">Back to List</a>
+            </form>
+        </div>
+    </div>

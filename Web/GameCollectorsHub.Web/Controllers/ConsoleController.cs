@@ -2,20 +2,26 @@
 {
     using System.Threading.Tasks;
 
+    using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Web.ViewModels.Console;
+    using GameCollectorsHub.Web.ViewModels.ConsoleCollection;
     using GameCollectorsHub.Web.ViewModels.Platform;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class ConsoleController : Controller
     {
         private readonly IPlatformService platform;
         private readonly IConsoleService console;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public ConsoleController(IPlatformService platform, IConsoleService console)
+        public ConsoleController(IPlatformService platform, IConsoleService console, UserManager<ApplicationUser> userManager)
         {
             this.platform = platform;
             this.console = console;
+            this.userManager = userManager;
         }
 
         public IActionResult Platforms()
@@ -120,6 +126,38 @@
             var platformId = await this.console.DeleteConsoleAsync(id);
 
             return this.RedirectToAction("Browse", new { id = platformId });
+        }
+
+        [Authorize]
+        public IActionResult AddToCollection(int consoleId)
+        {
+            var conosle = this.console.GetConsoleDetails(consoleId);
+
+            var viewModel = new AddConsoleToCollectionInputModel { ConsoleId = consoleId, ConsoleImgUrl = conosle.ImgUrl, ConsoleName = conosle.Name, };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddToCollection(AddConsoleToCollectionInputModel model)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            await this.console.AddConsoleToCollectionAsync(model.ConsoleId, user.Id, model.PricePaid, model.BoxIncluded, model.IsItNewAndSealed);
+
+            return this.RedirectToAction("Details", new { id = model.ConsoleId });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddToWishlist(int consoleId)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            await this.console.AddConsoleToWishlistAsync(consoleId, user.Id);
+
+            return this.Redirect("/ConsoleWishlist/All");
         }
     }
 }

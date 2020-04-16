@@ -39,7 +39,6 @@
             var viewModel = new AddGameToCollectionInputModel
             {
                 GameId = game.GameId,
-                UserId = user.Id,
                 GameImgUrl = game.GameImgUrl,
                 GameName = game.GameName,
             };

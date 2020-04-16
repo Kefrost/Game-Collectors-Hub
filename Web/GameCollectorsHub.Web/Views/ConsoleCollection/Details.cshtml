@@ -1,0 +1,22 @@
+﻿@model GameCollectorsHub.Web.ViewModels.ConsoleCollection.ConsoleCollectionDetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron p-4 p-md-5 text-white rounded bg-dark row">
+    <div class="col-md-6 px-0">
+        <img src="@Model.ConsoleImgUrl" style="max-width: 400px; max-height: 400px" />
+    </div>
+    <div class="col-md-6 px-0">
+        <h1 class="display-4 font-italic">@Model.ConsoleName @Model.Model</h1>
+        <div>
+            <p class="lead">Your Cost: @Model.Cost $</p>
+            <p class="lead">Includes: @Model.WhatIncludes</p>
+            <p class="lead">Condition: @Model.Condition</p>
+            <a asp-action="Edit" asp-route-consoleId="@Model.ConsoleId">Edit Details</a> |
+            <a asp-action="Delete" asp-route-consoleId="@Model.ConsoleId">Remove</a>
+        </div>
+    </div>
+</div>
+

@@ -1,10 +1,16 @@
 ﻿namespace GameCollectorsHub.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class Amiibo
     {
+        public Amiibo()
+        {
+            this.UserAmiibosCollection = new HashSet<UserAmiiboCollection>();
+        }
+
         public int Id { get; set; }
 
         [MaxLength(50)]
@@ -27,5 +33,7 @@
         public int AmiiboSeriesId { get; set; }
 
         public virtual AmiiboSeries AmiiboSeries { get; set; }
+
+        public virtual ICollection<UserAmiiboCollection> UserAmiibosCollection { get; set; }
     }
 }

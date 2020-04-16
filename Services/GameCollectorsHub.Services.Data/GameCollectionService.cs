@@ -109,7 +109,6 @@
                 IsItNewAndSealed = a.IsItNewAndSealed,
                 ManualIncluded = a.ManualIncluded,
                 PricePaid = a.PricePaid,
-                UserId = userId,
             }).FirstOrDefault();
 
             return gameReturn;

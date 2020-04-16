@@ -16,5 +16,9 @@
         public Task EditConsoleAsync(AddConsoleInputModel model);
 
         public Task<int> DeleteConsoleAsync(int id);
+
+        public Task AddConsoleToCollectionAsync(int consoleId, string userId, decimal pricePaid, bool boxIncluded, bool isItNewAndSealed);
+
+        public Task AddConsoleToWishlistAsync(int consoleId, string userId);
     }
 }

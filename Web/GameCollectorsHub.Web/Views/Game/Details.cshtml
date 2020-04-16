@@ -18,7 +18,7 @@
                     <p class="lead">Publisher: @Model.Publisher</p>
                     <p class="lead">Developer: @Model.Developer</p>
                     <a class="btn btn-primary btn-lg btn-block" asp-action="AddToCollection" asp-route-gameId="@Model.Id">Add To Collection!</a>
-                    <form asp-action="AddToWishlist" asp-route-gameId="@Model.Id">
+                    <form class="mt-2" asp-action="AddToWishlist" asp-route-gameId="@Model.Id">
                         <button class="btn btn-primary btn-lg btn-block" type="submit" >Add to Your Wishlist!</button>
                     </form>
 </div>

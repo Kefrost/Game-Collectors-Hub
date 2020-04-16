@@ -1,0 +1,22 @@
+﻿@model GameCollectorsHub.Web.ViewModels.AmiiboCollection.AmiiboCollectionDetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron p-4 p-md-5 text-white rounded bg-dark row">
+    <div class="col-md-6 px-0">
+        <img src="@Model.AmiiboImgUrl" style="max-width: 350px; max-height: 350px" />
+    </div>
+    <div class="col-md-6 px-0">
+        <h1 class="display-4 font-italic">@Model.AmiiboName from @Model.AmiiboSeries series</h1>
+        <div>
+            <h2 class="lead">Current Value: @Model.Value $</h2>
+            <p class="lead">Your Cost: @Model.Cost $</p>
+            <p class="lead">Condition: @Model.Condition</p>
+            <a asp-action="Edit" asp-route-amiiboId="@Model.AmiiboId">Edit Details</a> |
+            <a asp-action="Delete" asp-route-amiiboId="@Model.AmiiboId">Remove</a>
+        </div>
+    </div>
+</div>
+

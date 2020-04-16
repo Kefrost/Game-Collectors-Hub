@@ -18,5 +18,9 @@
         public AmiiboDetailsViewModel GetAmiiboDetails(int id);
 
         public Task<int> DeleteAmiiboAsync(int id);
+
+        public Task AddAmiiboToCollectionAsync(int amiiboId, string userId, decimal pricePaid, bool isItNewAndSealed);
+
+        public Task AddAmiiboToWishlistAsync(int amiiboId, string userId);
     }
 }

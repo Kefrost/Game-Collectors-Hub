@@ -11,11 +11,13 @@
     public class AmiiboService : IAmiiboService
     {
         private readonly IRepository<AmiiboSeries> seriesRepository;
+        private readonly IRepository<UserAmiiboCollection> collectionRepository;
         private readonly IRepository<Amiibo> amiiboRepository;
 
-        public AmiiboService(IRepository<AmiiboSeries> seriesRepository, IRepository<Amiibo> amiiboRepository)
+        public AmiiboService(IRepository<AmiiboSeries> seriesRepository, IRepository<UserAmiiboCollection> collectionRepository, IRepository<Amiibo> amiiboRepository)
         {
             this.seriesRepository = seriesRepository;
+            this.collectionRepository = collectionRepository;
             this.amiiboRepository = amiiboRepository;
         }
 
@@ -107,6 +109,60 @@
             await this.amiiboRepository.SaveChangesAsync();
 
             return amiibo.AmiiboSeriesId;
+        }
+
+        public async Task AddAmiiboToCollectionAsync(int amiiboId, string userId, decimal pricePaid, bool isItNewAndSealed)
+        {
+            if (this.collectionRepository.All().Where(a => a.AmiiboId == amiiboId && a.UserId == userId).Any())
+            {
+                var amiibo = this.collectionRepository.All().Where(a => a.AmiiboId == amiiboId && a.UserId == userId).FirstOrDefault();
+
+                amiibo.IsInWishlist = false;
+
+                this.collectionRepository.Update(amiibo);
+
+                await this.collectionRepository.SaveChangesAsync();
+            }
+            else
+            {
+                this.amiiboRepository.All().Where(a => a.Id == amiiboId).FirstOrDefault().UserAmiibosCollection.Add(new UserAmiiboCollection
+                {
+                    AmiiboId = amiiboId,
+                    UserId = userId,
+                    PricePaid = pricePaid,
+                    IsItNewAndSealed = isItNewAndSealed,
+                    IsInWishlist = false,
+                });
+
+                await this.amiiboRepository.SaveChangesAsync();
+            }
+        }
+
+        public async Task AddAmiiboToWishlistAsync(int amiiboId, string userId)
+        {
+            if (this.collectionRepository.All().Where(a => a.AmiiboId == amiiboId && a.UserId == userId).Any())
+            {
+                var amiibo = this.collectionRepository.All().Where(a => a.AmiiboId == amiiboId && a.UserId == userId).FirstOrDefault();
+
+                amiibo.IsInWishlist = true;
+
+                this.collectionRepository.Update(amiibo);
+
+                await this.collectionRepository.SaveChangesAsync();
+            }
+            else
+            {
+                this.amiiboRepository.All().Where(a => a.Id == amiiboId).FirstOrDefault().UserAmiibosCollection.Add(new UserAmiiboCollection
+                {
+                    AmiiboId = amiiboId,
+                    UserId = userId,
+                    PricePaid = 0,
+                    IsItNewAndSealed = false,
+                    IsInWishlist = true,
+                });
+
+                await this.amiiboRepository.SaveChangesAsync();
+            }
         }
     }
 }

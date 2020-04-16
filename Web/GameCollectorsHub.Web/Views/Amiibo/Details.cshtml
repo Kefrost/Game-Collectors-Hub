@@ -14,12 +14,12 @@
             <h1 class="display-4 font-italic">@Model.Name</h1>
             <div class="row">
                 <div class="col-md-6">
-                        <a asp-action="Browse" asp-route-id="@Model.AmiiboSeriesId"><p class="lead">@Model.AmiiboSeriesName series</p></a>
-                        <p class="lead">Release Date: @Model.ReleaseDate.ToShortDateString()</p>
-                        <div>
-                            <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Collection!</button>
-                            <button type="button" class="btn btn-primary btn-lg btn-block">Add to Your Wishlist!</button>
-                        </div>
+                    <a asp-action="Browse" asp-route-id="@Model.AmiiboSeriesId"><p class="lead">@Model.AmiiboSeriesName series</p></a>
+                    <p class="lead">Release Date: @Model.ReleaseDate.ToShortDateString()</p>
+                    <a class="btn btn-primary btn-lg btn-block" asp-action="AddToCollection" asp-route-amiiboId="@Model.Id">Add To Collection!</a>
+                    <form class="mt-2" asp-action="AddToWishlist" asp-route-amiiboId="@Model.Id">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Add to Your Wishlist!</button>
+                    </form>
                 </div>
                 <div class="col-md-6">
                     <p class="lead">Current Prices</p>

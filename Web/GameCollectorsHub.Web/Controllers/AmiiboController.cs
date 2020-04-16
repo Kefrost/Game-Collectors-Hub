@@ -1,21 +1,24 @@
 ﻿namespace GameCollectorsHub.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
+    using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Web.ViewModels.Amiibo;
+    using GameCollectorsHub.Web.ViewModels.AmiiboCollection;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class AmiiboController : Controller
     {
         private readonly IAmiiboService service;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public AmiiboController(IAmiiboService service)
+        public AmiiboController(IAmiiboService service, UserManager<ApplicationUser> userManager)
         {
             this.service = service;
+            this.userManager = userManager;
         }
 
         public IActionResult Series()
@@ -116,6 +119,38 @@
             var platformId = await this.service.DeleteAmiiboAsync(id);
 
             return this.RedirectToAction("Browse", new { id = platformId });
+        }
+
+        [Authorize]
+        public IActionResult AddToCollection(int amiiboId)
+        {
+            var amiibo = this.service.GetAmiiboDetails(amiiboId);
+
+            var viewModel = new AddAmiiboToCollectionInputModel { AmiiboId = amiiboId, AmiiboImgUrl = amiibo.ImgUrl, AmiiboName = amiibo.Name, };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddToCollection(AddAmiiboToCollectionInputModel model)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            await this.service.AddAmiiboToCollectionAsync(model.AmiiboId, user.Id, model.PricePaid, model.IsItNewAndSealed);
+
+            return this.RedirectToAction("Details", new { id = model.AmiiboId });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddToWishlist(int amiiboId)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            await this.service.AddAmiiboToWishlistAsync(amiiboId, user.Id);
+
+            return this.Redirect("/AmiiboWishlist/All");
         }
     }
 }

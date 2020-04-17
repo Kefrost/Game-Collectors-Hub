@@ -122,5 +122,17 @@
 
             await this.repository.SaveChangesAsync();
         }
+
+        public bool IsGameInCollection(string userId, int gameId)
+        {
+            var game = this.repository.All().Where(a => a.GameId == gameId && a.UserId == userId && a.IsInWishlist == false).FirstOrDefault();
+
+            if (game != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

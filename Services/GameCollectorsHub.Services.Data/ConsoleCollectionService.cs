@@ -111,5 +111,17 @@
 
             await this.repository.SaveChangesAsync();
         }
+
+        public bool IsConsoleInCollection(string userId, int consoleId)
+        {
+            var console = this.repository.All().Where(a => a.UserId == userId && a.GameConsoleId == consoleId).FirstOrDefault();
+
+            if (console != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

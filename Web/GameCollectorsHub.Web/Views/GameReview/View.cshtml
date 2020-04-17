@@ -1,0 +1,43 @@
+﻿@model GameCollectorsHub.Web.ViewModels.GameReview.GameReviewDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron p-4 p-md-5 text-white rounded bg-dark row">
+    <div class="col-md-6 px-0">
+        <img src="@Model.GameImg" style="max-width: 350px; max-height: 350px" />
+    </div>
+    <div class="col-md-6 px-0">
+        <div class="row">
+            <h1 class="display-4 font-italic">@Model.Title</h1>
+            <h5 class="display-4 font-italic">@Model.GameName</h5>
+            <h1>Our Review Score: @Model.RatingScore / 10</h1>
+        </div>
+    </div>
+</div>
+
+<main role="main" class="container bg-light">
+    <h2 class="pb-4 mb-4 font-italic border-bottom">
+        Overview
+    </h2>
+
+    <p>@Model.Content</p>
+
+    <h2 class="pb-4 mb-4 font-italic border-bottom">
+        Comments
+    </h2>
+
+    @if (!Model.Comments.Any())
+    {
+        <h3 class=" font-italic text-center">No comments yet.</h3>
+    }
+
+    <div class="mt-4">
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+    </div>
+
+</main>
+

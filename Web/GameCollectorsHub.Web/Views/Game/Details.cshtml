@@ -17,11 +17,18 @@
                     <p class="lead">System: @Model.PlatformName</p>
                     <p class="lead">Publisher: @Model.Publisher</p>
                     <p class="lead">Developer: @Model.Developer</p>
-                    <a class="btn btn-primary btn-lg btn-block" asp-action="AddToCollection" asp-route-gameId="@Model.Id">Add To Collection!</a>
+                    @if (!Model.IsInCollection)
+                    {
+                        <a class="btn btn-primary btn-lg btn-block" asp-action="AddToCollection" asp-route-gameId="@Model.Id">Add To Collection!</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-danger btn-lg btn-block" asp-action="AllCollection" asp-controller="GameCollection">Game is in your collection</a>
+                    }
                     <form class="mt-2" asp-action="AddToWishlist" asp-route-gameId="@Model.Id">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit" >Add to Your Wishlist!</button>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Add to Your Wishlist!</button>
                     </form>
-</div>
+                </div>
                 <div class="col-md-6">
                     <p class="lead">Our Review Score: @Model.OurReviewScore </p>
                     <p class="lead">Users Score: 8</p>
@@ -63,9 +70,25 @@
         Reviews
     </h2>
 
-    @if (Model.ReviewId == -1)
+    @if (!Model.Reviews.Any() || Model.Reviews == null)
     {
-        <h3 class=" font-italic text-center">Sorry, no review of @Model.Name yet.</h3>
+        <h3 class="font-italic text-center">Sorry, no review of @Model.Name yet.</h3>
+    }
+    @if (Model.Reviews.Any())
+    {
+
+        @foreach (var review in Model.Reviews)
+        {
+            <div class="row" style="border:none; background:white; height:auto; width:75%">
+                <div class="col-xs-6">
+                    <img src="@review.ReviewImgUrl" style="width: 120px; margin-left:15px;" />
+                </div>
+                <div class="col-xs-6" style="margin-left: 20px">
+                    <a asp-controller="GameReview" asp-action="View" asp-route-id="@review.ReviewId"><h3>@review.ReviewName</h3></a>
+                    <p style="font-size:15px; font-style:italic; color:#03225C;">@review.ShortReviewContent...</p>
+                </div>
+            </div>
+        }
     }
 
     <div class="mt-4">

@@ -20,5 +20,7 @@
         public AddAmiiboToCollectionInputModel GetAmiiboCollectionInputDetails(string userId, int amiiboId);
 
         public Task DeleteAmiiboInCollectionAsync(string userId, int amiiboId);
+
+        public bool IsAmiiboInCollection(string userId, int amiiboId);
     }
 }

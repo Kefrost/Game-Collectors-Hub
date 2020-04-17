@@ -21,6 +21,8 @@
 
         public string Model { get; set; }
 
+        public bool IsInCollection { get; set; }
+
         public int PlatformId { get; set; }
 
         public IEnumerable<ConsoleLaunchTitlesViewModel> LauchTitles { get; set; }

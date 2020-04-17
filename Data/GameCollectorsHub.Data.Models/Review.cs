@@ -10,8 +10,11 @@
         public Review()
         {
             this.Comments = new HashSet<Comment>();
-            this.GamesReviews = new HashSet<GamesReview>();
         }
+
+        public int GameId { get; set; }
+
+        public Game Game { get; set; }
 
         [Required]
         [MinLength(5)]
@@ -25,7 +28,5 @@
         public int RatingScore { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
-
-        public virtual ICollection<GamesReview> GamesReviews { get; set; }
     }
 }

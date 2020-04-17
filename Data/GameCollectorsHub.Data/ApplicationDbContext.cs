@@ -42,8 +42,6 @@
 
         public DbSet<AmiiboSeries> AmiiboSeries { get; set; }
 
-        public DbSet<GamesReview> GamesReviews { get; set; }
-
         public DbSet<UserGameCollection> UserGamesCollection { get; set; }
 
         public DbSet<UserConsoleCollection> UserConsolesCollection { get; set; }
@@ -79,9 +77,6 @@
             EntityIndexesConfiguration.Configure(builder);
 
             var entityTypes = builder.Model.GetEntityTypes().ToList();
-
-            builder.Entity<GamesReview>()
-                .HasKey(a => new { a.GameId, a.ReviewId });
 
             builder.Entity<UserGameCollection>()
                 .HasKey(a => new { a.UserId, a.GameId });

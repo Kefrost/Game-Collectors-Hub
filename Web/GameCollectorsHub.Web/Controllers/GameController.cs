@@ -1,5 +1,6 @@
 ﻿namespace GameCollectorsHub.Web.Controllers
     {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using GameCollectorsHub.Data.Models;
@@ -15,12 +16,16 @@
     {
         private readonly IPlatformService platform;
         private readonly IGameService gameService;
+        private readonly IGameCollectionService colectionService;
+        private readonly IGameReviewService reviewService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public GameController(IPlatformService platform, IGameService gameService, UserManager<ApplicationUser> userManager)
+        public GameController(IPlatformService platform, IGameService gameService, IGameCollectionService colectionService, IGameReviewService reviewService, UserManager<ApplicationUser> userManager)
         {
             this.platform = platform;
             this.gameService = gameService;
+            this.colectionService = colectionService;
+            this.reviewService = reviewService;
             this.userManager = userManager;
         }
 
@@ -33,14 +38,19 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
+            var user = await this.userManager.GetUserAsync(this.User);
+
             var viewModel = this.gameService.GetGameDetails(id);
 
-            if (viewModel.OurReviewScore == null)
-            {
-                viewModel.OurReviewScore = "N/A";
-            }
+            var reviews = this.reviewService.GetReviewsForGame(id);
+
+            viewModel.Reviews = reviews;
+
+            viewModel.OurReviewScore = reviews.Any() ? reviews.Average(a => decimal.Parse(a.OurReviewScore)).ToString() : "N/A";
+
+            viewModel.IsInCollection = this.colectionService.IsGameInCollection(user.Id, id);
 
             return this.View(viewModel);
         }

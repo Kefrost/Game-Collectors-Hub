@@ -18,5 +18,7 @@
         public Task DeleteGameInCollectionAsync(string userId, int gameId);
 
         public ICollection<GameCollectionItemViewModel> ListAllGameWishlist(string userId);
+
+        public bool IsGameInCollection(string userId, int gameId);
     }
 }

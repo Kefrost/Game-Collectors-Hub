@@ -51,12 +51,22 @@
             </div>
         </div>
 
-        <aside class="col-md-4 blog-sidebar">
-
-            <div class="p-3">
-                <h4 class="font-italic">Empty</h4>
-                <p>@Model.Description</p>
-            </div>
+        <aside class="col-md-4 blog-sidebar p-3">
+            <h3>@Model.Franchise franchise</h3>
+            <hr style="border: solid; color: darkgray" />
+            <ul class="list-group">
+                @foreach (var franchiseAmiibo in Model.FranchiseAmiibos)
+                {
+                    <li class="row mt-3 container-fluid shadow-lg border-dark rounded">
+                        <div class="col-md-3">
+                            <img src="@franchiseAmiibo.ImgUrl" style="width: 75px;" />
+                        </div>
+                        <div class="col-md-9 text-center">
+                            <a asp-action="Details" asp-route-id="@franchiseAmiibo.Id"><h2>@franchiseAmiibo.Name</h2></a>
+                        </div>
+                    </li>
+                }
+            </ul>
         </aside>
     </div>
 

@@ -68,6 +68,19 @@
             return amiibos;
         }
 
+        public IEnumerable<AllAmiiboDetailsViewModel> GetAllByFranchise(string franchise)
+        {
+            var franchiseAmiibos = this.amiiboRepository.All().Where(a => a.Franchise == franchise).OrderBy(a => a.Name).Select(a => new AllAmiiboDetailsViewModel
+            {
+                Id = a.Id,
+                Name = a.Name,
+                ImgUrl = a.ImgUrl,
+                Franchise = a.Franchise,
+            }).ToList();
+
+            return franchiseAmiibos;
+        }
+
         public async Task EditAmiiboAsync(AddAmiiboInputModel model)
         {
             var amiibo = this.amiiboRepository.All().Where(a => a.Id == model.Id).FirstOrDefault();
@@ -96,6 +109,10 @@
                 AmiiboSeriesName = a.AmiiboSeries.Name,
                 Franchise = a.Franchise,
             }).FirstOrDefault();
+
+            var franchiseAmiibos = this.GetAllByFranchise(amiibo.Franchise);
+
+            amiibo.FranchiseAmiibos = franchiseAmiibos;
 
             return amiibo;
         }

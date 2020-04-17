@@ -18,5 +18,7 @@
         public AddConsoleToCollectionInputModel GetConsoleCollectionInputDetails(string userId, int consoleId);
 
         public Task DeleteConsoleInCollectionAsync(string userId, int consoleId);
+
+        public bool IsConsoleInCollection(string userId, int consoleId);
     }
 }

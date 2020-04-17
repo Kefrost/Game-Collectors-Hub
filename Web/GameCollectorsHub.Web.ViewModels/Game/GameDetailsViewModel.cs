@@ -1,6 +1,7 @@
 ﻿namespace GameCollectorsHub.Web.ViewModels.Game
 {
     using System;
+    using System.Collections.Generic;
 
     public class GameDetailsViewModel
     {
@@ -26,14 +27,10 @@
 
         public string PlatformName { get; set; }
 
-        public int? ReviewId { get; set; }
-
-        public string ReviewName { get; set; }
-
-        public string ReviewImgUrl { get; set; }
-
-        public string ShortReviewContent { get; set; }
-
         public string OurReviewScore { get; set; }
+
+        public bool IsInCollection { get; set; }
+
+        public IEnumerable<GameDetailsReviewViewModel> Reviews { get; set; }
     }
 }

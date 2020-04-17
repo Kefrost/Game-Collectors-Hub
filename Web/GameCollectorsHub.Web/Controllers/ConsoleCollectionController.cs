@@ -38,13 +38,6 @@
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> SearchUser()
-        {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            return this.RedirectToAction("AllCollection", new { userId = user.Id });
-        }
-
         public async Task<IActionResult> Details(int consoleId)
         {
             var user = await this.userManager.GetUserAsync(this.User);

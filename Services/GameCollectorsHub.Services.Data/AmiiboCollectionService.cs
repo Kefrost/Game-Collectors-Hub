@@ -106,5 +106,17 @@
 
             await this.repository.SaveChangesAsync();
         }
+
+        public bool IsAmiiboInCollection(string userId, int amiiboId)
+        {
+            var amiibo = this.repository.All().Where(a => a.AmiiboId == amiiboId && a.UserId == userId).FirstOrDefault();
+
+            if (amiibo != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

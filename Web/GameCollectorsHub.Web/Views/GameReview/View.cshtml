@@ -19,11 +19,10 @@
 </div>
 
 <main role="main" class="container bg-light">
-    <h2 class="pb-4 mb-4 font-italic border-bottom">
-        Overview
-    </h2>
+    
+    @Html.Raw(Model.Content)
 
-    <p>@Model.Content</p>
+    <hr />
 
     <h2 class="pb-4 mb-4 font-italic border-bottom">
         Comments

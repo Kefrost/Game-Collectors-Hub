@@ -85,9 +85,11 @@
                 ReviewId = a.Id,
                 ReviewImgUrl = a.Game.ImageUrl,
                 ReviewName = a.Title,
-                ShortReviewContent = a.Content.Substring(0, 100),
+                ReviewContent = a.Content,
                 OurReviewScore = a.RatingScore.ToString(),
             }).ToList();
+
+            //a.Content.Length > 300 ? a.Content.Substring(0, 300) : a.Content
 
             return reviews;
         }

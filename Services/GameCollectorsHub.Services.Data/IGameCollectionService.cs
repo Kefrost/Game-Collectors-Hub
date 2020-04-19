@@ -20,5 +20,7 @@
         public ICollection<GameCollectionItemViewModel> ListAllGameWishlist(string userId);
 
         public bool IsGameInCollection(string userId, int gameId);
+
+        public bool IsGameInWishlist(string userId, int gameId);
     }
 }

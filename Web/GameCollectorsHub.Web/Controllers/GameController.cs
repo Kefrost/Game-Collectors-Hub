@@ -50,7 +50,12 @@
 
             viewModel.OurReviewScore = reviews.Any() ? reviews.Average(a => decimal.Parse(a.OurReviewScore)).ToString() : "N/A";
 
-            viewModel.IsInCollection = this.colectionService.IsGameInCollection(user.Id, id);
+            if (user != null)
+            {
+                viewModel.IsInCollection = this.colectionService.IsGameInCollection(user.Id, id);
+
+                viewModel.IsInWishlist = this.colectionService.IsGameInWishlist(user.Id, id);
+            }
 
             return this.View(viewModel);
         }

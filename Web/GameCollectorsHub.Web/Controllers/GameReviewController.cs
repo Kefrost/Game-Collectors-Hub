@@ -5,19 +5,23 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Web.ViewModels.GameReview;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class GameReviewController : Controller
     {
         private readonly IGameService gameService;
         private readonly IGameReviewService reviewService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public GameReviewController(IGameService gameService, IGameReviewService reviewService)
+        public GameReviewController(IGameService gameService, IGameReviewService reviewService, UserManager<ApplicationUser> userManager)
         {
             this.gameService = gameService;
             this.reviewService = reviewService;
+            this.userManager = userManager;
         }
 
         public IActionResult Create(int gameId)
@@ -46,7 +50,19 @@
         {
             var viewModel = this.reviewService.GetReview(id);
 
+            viewModel.Comments = this.reviewService.GetReviewComments(id);
+
             return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(GameReviewDetailsViewModel model)
+        {
+            var userId = this.userManager.GetUserId(this.User);
+
+            await this.reviewService.AddComment(userId, model.Id, model.AddCommentContent);
+
+            return this.RedirectToAction("View", new { id = model.Id });
         }
 
         public IActionResult Edit(int id)

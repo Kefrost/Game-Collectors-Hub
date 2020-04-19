@@ -134,5 +134,17 @@
 
             return false;
         }
+
+        public bool IsGameInWishlist(string userId, int gameId)
+        {
+            var game = this.repository.All().Where(a => a.GameId == gameId && a.UserId == userId && a.IsInWishlist == true).FirstOrDefault();
+
+            if (game != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

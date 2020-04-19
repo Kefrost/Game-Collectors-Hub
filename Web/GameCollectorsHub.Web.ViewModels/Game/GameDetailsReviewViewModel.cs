@@ -1,8 +1,8 @@
-﻿using System.Net;
-using System.Text.RegularExpressions;
-
-namespace GameCollectorsHub.Web.ViewModels.Game
+﻿namespace GameCollectorsHub.Web.ViewModels.Game
 {
+    using System.Net;
+    using System.Text.RegularExpressions;
+
     public class GameDetailsReviewViewModel
     {
         public int? ReviewId { get; set; }
@@ -25,5 +25,6 @@ namespace GameCollectorsHub.Web.ViewModels.Game
         }
 
         public string OurReviewScore { get; set; }
+
     }
 }

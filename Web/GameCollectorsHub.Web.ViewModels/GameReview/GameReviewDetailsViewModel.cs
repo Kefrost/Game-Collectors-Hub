@@ -22,6 +22,8 @@
 
         public int RatingScore { get; set; }
 
-        public IEnumerable<Comment> Comments { get; set; }
+        public IEnumerable<ReviewCommentViewModel> Comments { get; set; }
+
+        public string AddCommentContent { get; set; }
     }
 }

@@ -31,6 +31,8 @@
 
         public bool IsInCollection { get; set; }
 
+        public bool IsInWishlist { get; set; }
+
         public IEnumerable<GameDetailsReviewViewModel> Reviews { get; set; }
     }
 }

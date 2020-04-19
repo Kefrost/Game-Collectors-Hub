@@ -16,5 +16,9 @@
         public Task<int> DeleteReviewAsync(int id);
 
         public IEnumerable<GameDetailsReviewViewModel> GetReviewsForGame(int id);
+
+        public Task<int> AddComment(string userId, int reviewId, string content);
+
+        public IEnumerable<ReviewCommentViewModel> GetReviewComments(int id);
     }
 }

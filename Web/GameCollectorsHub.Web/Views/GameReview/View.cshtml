@@ -6,21 +6,21 @@
 }
 
 <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark row">
-    <div class="col-md-6 px-0">
+    <div class="col-md-6">
         <img src="@Model.GameImg" style="max-width: 350px; max-height: 350px" />
     </div>
-    <div class="col-md-6 px-0">
+    <div class="col-md-6">
         <div class="row">
             <h1 class="display-4 font-italic">@Model.Title</h1>
-            <h5 class="display-4 font-italic">@Model.GameName</h5>
+            <a asp-action="Details" asp-controller="Game" asp-route-id="@Model.GameId"><h4 class="display-4 font-italic">@Model.GameName</h4></a>
             <h1>Our Review Score: @Model.RatingScore / 10</h1>
         </div>
     </div>
 </div>
 
 <main role="main" class="container bg-light">
-    
-    @Html.Raw(Model.Content)
+
+        @Html.Raw(Model.Content)
 
     <hr />
 
@@ -28,10 +28,61 @@
         Comments
     </h2>
 
-    @if (!Model.Comments.Any())
-    {
-        <h3 class=" font-italic text-center">No comments yet.</h3>
-    }
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="home" aria-selected="true">Comments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#add-comment" role="tab" aria-controls="profile" aria-selected="false">Add Comment</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="comments" role="tabpanel" aria-labelledby="home-tab">
+                @if (!Model.Comments.Any())
+                {
+                    <h3 class=" font-italic text-center">No comments yet.</h3>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var comment in Model.Comments)
+                        {
+                            <li class="media mt-3">
+                                <div class="container rounded" style="width: 75%; background-color: gray">
+                                    <div class="media-body">
+                                        <h5 class="mt-0">@comment.UserName</h5>
+                                        @comment.Content
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+            <div class="tab-pane fade" id="add-comment" role="tabpanel" aria-labelledby="profile-tab">
+                <form asp-action="AddComment" method="post" class="form-horizontal">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="Id" hidden value="@Model.Id" class="form-control" />
+                    <div class="form-group">
+                        <label asp-for="AddCommentContent" class="col-sm-2">Comment</label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label asp-for="AddCommentContent" class="control-label"></label>
+                                <textarea asp-for="AddCommentContent" class="form-control"></textarea>
+                                <span asp-validation-for="AddCommentContent" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" value="Add Comment" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="mt-4">
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

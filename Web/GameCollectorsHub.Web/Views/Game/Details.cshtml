@@ -25,9 +25,17 @@
                     {
                         <a class="btn btn-danger btn-lg btn-block" asp-action="AllCollection" asp-controller="GameCollection">Game is in your collection</a>
                     }
-                    <form class="mt-2" asp-action="AddToWishlist" asp-route-gameId="@Model.Id">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Add to Your Wishlist!</button>
-                    </form>
+
+                    @if (!Model.IsInWishlist && !Model.IsInCollection)
+                    {
+                        <form class="mt-2" asp-action="AddToWishlist" asp-route-gameId="@Model.Id">
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Add to Your Wishlist!</button>
+                        </form>
+                    }
+                    else if(Model.IsInWishlist && !Model.IsInCollection)
+                    {
+                        <a class="btn btn-danger btn-lg btn-block" asp-action="All" asp-controller="GameWishlist">Game is in your wishlist</a>
+                    }
                 </div>
                 <div class="col-md-6">
                     <p class="lead">Our Review Score: @Model.OurReviewScore </p>
@@ -42,7 +50,7 @@
     </div>
 </div>
 
-<main role="main" class="container bg-light">
+<main role="main" class="container bg-dark">
     <h2 class="pb-4 mb-4 font-italic border-bottom">
         Overview
     </h2>
@@ -79,7 +87,7 @@
 
         @foreach (var review in Model.Reviews)
         {
-            <div class="row" style="border:none; background:white; height:auto; width:75%">
+            <div class="row bg-light rounded ml-2" style="border:none; height:auto; width:75%">
                 <div class="col-xs-6">
                     <img src="@review.ReviewImgUrl" style="width: 120px; margin-left:15px;" />
                 </div>
@@ -90,6 +98,73 @@
             </div>
         }
     }
+
+    <h2 class="pb-4 mb-4 font-italic border-bottom">
+        User Ratings
+    </h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="comment">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active"><a href="#comments" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Comments</h4></a></li>
+                    <li><a href="#add-comment" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Add comment</h4></a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="comments">
+                        <ul class="media-list rounded" style="background-color: gray">
+                            <li class="media">
+                                <div class="pull-left">
+                                    <div class="rounded" style="background-color: red">
+                                        <h2>8/10</h2>
+                                    </div>
+                                </div>
+                                <div class="media-body ml-3">
+                                    <div class="well well-lg">
+                                        <h4 class="media-heading text-uppercase reviews">Username</h4>
+                                        <p>
+                                            TextTextTextTextTextTextTextTextTextTextTextText
+                                            Text
+                                            Text
+                                            Text
+                                            Text
+                                            Text
+                                            Text
+
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" id="add-comment">
+                        <form action="#" method="post" class="form-horizontal" id="commentForm" role="form">
+                            <div class="form-group">
+                                <label for="email" class="col-sm-2 control-label">Comment</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="addComment" id="addComment" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="uploadMedia" class="col-sm-2 control-label">Upload media</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">http://</div>
+                                        <input type="text" class="form-control" name="uploadMedia" id="uploadMedia">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button class="btn btn-success btn-circle text-uppercase" type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Summit comment</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="mt-4">
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

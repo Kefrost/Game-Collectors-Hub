@@ -14,10 +14,12 @@
     public class GameReviewService : IGameReviewService
     {
         private readonly IRepository<Review> repository;
+        private readonly IDeletableEntityRepository<Comment> commentRepository;
 
-        public GameReviewService(IRepository<Review> repository)
+        public GameReviewService(IRepository<Review> repository, IDeletableEntityRepository<Comment> commentRepository)
         {
             this.repository = repository;
+            this.commentRepository = commentRepository;
         }
 
         public async Task<int> CreateReview(int gameId, string title, string content, int ratingScore)
@@ -48,10 +50,21 @@
                 Content = a.Content,
                 RatingScore = a.RatingScore,
                 Title = a.Title,
-                Comments = a.Comments,
             }).FirstOrDefault();
 
             return review;
+        }
+
+        public IEnumerable<ReviewCommentViewModel> GetReviewComments(int id)
+        {
+            var comments = this.commentRepository.All().Where(a => a.ReviewId == id).OrderByDescending(a => a.CreatedOn).Select(a => new ReviewCommentViewModel
+            {
+                UserId = a.UserId,
+                UserName = a.User.UserName,
+                Content = a.Content,
+            }).ToList();
+
+            return comments;
         }
 
         public async Task EditReview(int id, string title, int score, string content)
@@ -89,9 +102,23 @@
                 OurReviewScore = a.RatingScore.ToString(),
             }).ToList();
 
-            //a.Content.Length > 300 ? a.Content.Substring(0, 300) : a.Content
-
             return reviews;
+        }
+
+        public async Task<int> AddComment(string userId, int reviewId, string content)
+        {
+            var comment = new Comment
+            {
+                Content = content,
+                ReviewId = reviewId,
+                UserId = userId,
+            };
+
+            await this.commentRepository.AddAsync(comment);
+
+            await this.commentRepository.SaveChangesAsync();
+
+            return comment.ReviewId;
         }
     }
 }

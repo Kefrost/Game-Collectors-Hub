@@ -27,10 +27,20 @@
 
             var amiibos = this.service.ListAllAmiibosCollection(user.Id);
 
+            var value = 0.0m;
+
+            foreach (var amiibo in amiibos)
+            {
+                var resValue = 0.0m;
+                var parse = decimal.TryParse(amiibo.Value.Replace("\n", string.Empty).Replace('$', ' ').Trim(), out resValue);
+                value += resValue;
+            }
+
             var viewModel = new AllAmiiboCollectionViewModel
             {
                 AmiiboCollectionItems = amiibos,
                 TotalYouPaid = amiibos.Sum(a => a.Cost),
+                CollectionValue = value,
             };
 
             viewModel.TotalYouPaid = Math.Round(viewModel.TotalYouPaid, 3);

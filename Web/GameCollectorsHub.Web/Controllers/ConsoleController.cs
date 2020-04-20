@@ -15,12 +15,14 @@
     {
         private readonly IPlatformService platform;
         private readonly IConsoleService console;
+        private readonly IConsoleCollectionService collectionService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public ConsoleController(IPlatformService platform, IConsoleService console, UserManager<ApplicationUser> userManager)
+        public ConsoleController(IPlatformService platform, IConsoleService console, IConsoleCollectionService collectionService, UserManager<ApplicationUser> userManager)
         {
             this.platform = platform;
             this.console = console;
+            this.collectionService = collectionService;
             this.userManager = userManager;
         }
 
@@ -35,7 +37,16 @@
 
         public IActionResult Details(int id)
         {
+            var userId = this.userManager.GetUserId(this.User);
+
             var viewModel = this.console.GetConsoleDetails(id);
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                viewModel.IsInCollection = this.collectionService.IsConsoleInCollection(userId, id);
+
+                viewModel.IsInWishlist = this.collectionService.IsConsoleInWishlist(userId, id);
+            }
 
             return this.View(viewModel);
         }

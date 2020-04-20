@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="container bg-light">
+    <div class="container bg-dark">
         <h1>Your Amiibo Collection</h1>
         <h4>Collection Value: @Model.CollectionValue.ToString("F2") $</h4>
         <h4>Collection Cost: @Model.TotalYouPaid.ToString("F2") $</h4>
@@ -28,7 +28,7 @@
                             <td><img src="@amiibo.AmiiboImgUrl" style="max-height: 85px; max-width: 85px;" /></td>
                             <td><a asp-action="Details" asp-route-amiiboId="@amiibo.AmiiboId">@amiibo.AmiiboName (@amiibo.AmiiboSeries series)</a></td>
                             <td>@amiibo.Cost.ToString("F2") $</td>
-                            <td>@amiibo.Value.ToString("F2") $</td>
+                            <td>@amiibo.Value</td>
                             <td>
                                 <a asp-action="Edit" asp-route-amiiboId="@amiibo.AmiiboId">Edit Details</a> | 
                                 <a asp-action="Delete" asp-route-amiiboId="@amiibo.AmiiboId">Remove</a>

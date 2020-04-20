@@ -16,16 +16,31 @@
                 <div class="col-md-6">
                     <a asp-action="Browse" asp-route-id="@Model.AmiiboSeriesId"><p class="lead">@Model.AmiiboSeriesName series</p></a>
                     <p class="lead">Release Date: @Model.ReleaseDate.ToShortDateString()</p>
-                    <a class="btn btn-primary btn-lg btn-block" asp-action="AddToCollection" asp-route-amiiboId="@Model.Id">Add To Collection!</a>
-                    <form class="mt-2" asp-action="AddToWishlist" asp-route-amiiboId="@Model.Id">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Add to Your Wishlist!</button>
-                    </form>
+                    @if (!Model.IsInCollection)
+                    {
+                        <a class="btn btn-primary btn-lg btn-block" asp-action="AddToCollection" asp-route-amiiboId="@Model.Id">Add To Collection!</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-danger btn-lg btn-block" asp-action="AllCollection" asp-controller="AmiiboCollection">Amiibo is in your collection</a>
+                    }
+
+                    @if (!Model.IsInWishlist && !Model.IsInCollection)
+                    {
+                        <form class="mt-2" asp-action="AddToWishlist" asp-route-amiiboId="@Model.Id">
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Add to Your Wishlist!</button>
+                        </form>
+                    }
+                    else if (Model.IsInWishlist && !Model.IsInCollection)
+                    {
+                        <a class="btn btn-danger btn-lg btn-block" asp-action="All" asp-controller="AmiiboWishlist">Amiibo is in your wishlist</a>
+                    }
                 </div>
                 <div class="col-md-6">
                     <p class="lead">Current Prices</p>
                     <hr style="border: solid; color:white" />
-                    <p class="lead">Loose Price: €11.58</p>
-                    <p class="lead">New Price: 	€18.49</p>
+                    <p class="lead">Loose Price: @Model.UsedPrice</p>
+                    <p class="lead">New Price: 	@Model.NewPrice</p>
                 </div>
             </div>
         </div>

@@ -22,5 +22,7 @@
         public Task DeleteAmiiboInCollectionAsync(string userId, int amiiboId);
 
         public bool IsAmiiboInCollection(string userId, int amiiboId);
+
+        public bool IsAmiiboInWishlist(string userId, int amiiboId);
     }
 }

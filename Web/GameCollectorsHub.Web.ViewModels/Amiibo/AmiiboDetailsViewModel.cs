@@ -23,6 +23,14 @@
 
         public bool IsInCollection { get; set; }
 
+        public bool IsInWishlist { get; set; }
+
         public virtual IEnumerable<AllAmiiboDetailsViewModel> FranchiseAmiibos { get; set; }
+
+        public string UsedPrice { get; set; }
+
+        public string CompletePrice { get; set; }
+
+        public string NewPrice { get; set; }
     }
 }

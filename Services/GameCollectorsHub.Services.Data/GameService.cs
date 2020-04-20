@@ -13,12 +13,14 @@
     public class GameService : IGameService
     {
         private readonly IRepository<Game> repository;
+        private readonly IRepository<Rating> ratingRepository;
         private readonly IRepository<UserGameCollection> collectionRepository;
         private readonly IScrapeService scrapeService;
 
-        public GameService(IRepository<Game> repository, IRepository<UserGameCollection> collectionRepository, IScrapeService scrapeService)
+        public GameService(IRepository<Game> repository, IRepository<Rating> ratingRepository, IRepository<UserGameCollection> collectionRepository, IScrapeService scrapeService)
         {
             this.repository = repository;
+            this.ratingRepository = ratingRepository;
             this.collectionRepository = collectionRepository;
             this.scrapeService = scrapeService;
         }
@@ -107,6 +109,7 @@
             game.PlatformId = model.PlatformId;
             game.Publisher = model.Publisher;
             game.Series = model.Series;
+            game.PriceUrl = model.PriceUrl;
 
             this.repository.Update(game);
             await this.repository.SaveChangesAsync();
@@ -191,6 +194,36 @@
 
                 await this.repository.SaveChangesAsync();
             }
+        }
+
+        public async Task<int> AddRating(string userId, int gameId, int ratingScore, string content)
+        {
+            var comment = new Rating
+            {
+                RatingScore = ratingScore,
+                Content = content,
+                GameId = gameId,
+                UserId = userId,
+            };
+
+            await this.ratingRepository.AddAsync(comment);
+
+            await this.ratingRepository.SaveChangesAsync();
+
+            return comment.GameId;
+        }
+
+        public IEnumerable<GameUserRatingViewModel> GetGameUserRatings(int id)
+        {
+            var comments = this.ratingRepository.All().Where(a => a.GameId == id).OrderByDescending(a => a.CreatedOn).Select(a => new GameUserRatingViewModel
+            {
+                UserId = a.UserId,
+                UserName = a.User.UserName,
+                Content = a.Content,
+                RatingScore = a.RatingScore,
+            }).ToList();
+
+            return comments;
         }
     }
 }

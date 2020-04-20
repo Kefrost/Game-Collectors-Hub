@@ -13,12 +13,14 @@
         private readonly IRepository<AmiiboSeries> seriesRepository;
         private readonly IRepository<UserAmiiboCollection> collectionRepository;
         private readonly IRepository<Amiibo> amiiboRepository;
+        private readonly IScrapeService scrapeService;
 
-        public AmiiboService(IRepository<AmiiboSeries> seriesRepository, IRepository<UserAmiiboCollection> collectionRepository, IRepository<Amiibo> amiiboRepository)
+        public AmiiboService(IRepository<AmiiboSeries> seriesRepository, IRepository<UserAmiiboCollection> collectionRepository, IRepository<Amiibo> amiiboRepository, IScrapeService scrapeService)
         {
             this.seriesRepository = seriesRepository;
             this.collectionRepository = collectionRepository;
             this.amiiboRepository = amiiboRepository;
+            this.scrapeService = scrapeService;
         }
 
         public IEnumerable<AmiiboSeriesDetailsViewModel> GetAmiiboSeries()
@@ -44,6 +46,7 @@
                 ReleaseDate = model.ReleaseDate,
                 Franchise = model.Franchise,
                 AmiiboSeriesId = model.AmiiboSeriesId,
+                PriceUrl = model.PriceUrl,
             };
 
             await this.amiiboRepository.AddAsync(amiibo);
@@ -91,6 +94,7 @@
             amiibo.ReleaseDate = model.ReleaseDate;
             amiibo.AmiiboSeriesId = model.AmiiboSeriesId;
             amiibo.Franchise = model.Franchise;
+            amiibo.PriceUrl = model.PriceUrl;
 
             this.amiiboRepository.Update(amiibo);
             await this.amiiboRepository.SaveChangesAsync();
@@ -98,6 +102,8 @@
 
         public AmiiboDetailsViewModel GetAmiiboDetails(int id)
         {
+            var priceUrl = this.amiiboRepository.All().Where(a => a.Id == id).Select(a => a.PriceUrl).FirstOrDefault();
+
             var amiibo = this.amiiboRepository.All().Where(a => a.Id == id).Select(a => new AmiiboDetailsViewModel
             {
                 Id = a.Id,
@@ -113,6 +119,12 @@
             var franchiseAmiibos = this.GetAllByFranchise(amiibo.Franchise);
 
             amiibo.FranchiseAmiibos = franchiseAmiibos;
+
+            var prices = this.scrapeService.GetPrices(priceUrl);
+
+            amiibo.UsedPrice = prices.UsedPrice;
+            amiibo.CompletePrice = prices.CompletePrice;
+            amiibo.NewPrice = prices.NewPrice;
 
             return amiibo;
         }

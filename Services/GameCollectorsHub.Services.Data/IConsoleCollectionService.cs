@@ -20,5 +20,7 @@
         public Task DeleteConsoleInCollectionAsync(string userId, int consoleId);
 
         public bool IsConsoleInCollection(string userId, int consoleId);
+
+        public bool IsConsoleInWishlist(string userId, int consoleId);
     }
 }

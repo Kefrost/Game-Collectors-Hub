@@ -13,11 +13,13 @@
     public class AmiiboController : Controller
     {
         private readonly IAmiiboService service;
+        private readonly IAmiiboCollectionService collectionService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public AmiiboController(IAmiiboService service, UserManager<ApplicationUser> userManager)
+        public AmiiboController(IAmiiboService service, IAmiiboCollectionService collectionService, UserManager<ApplicationUser> userManager)
         {
             this.service = service;
+            this.collectionService = collectionService;
             this.userManager = userManager;
         }
 
@@ -32,7 +34,16 @@
 
         public IActionResult Details(int id)
         {
+            var userId = this.userManager.GetUserId(this.User);
+
             var viewModel = this.service.GetAmiiboDetails(id);
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                viewModel.IsInCollection = this.collectionService.IsAmiiboInCollection(userId, id);
+
+                viewModel.IsInWishlist = this.collectionService.IsAmiiboInWishlist(userId, id);
+            }
 
             return this.View(viewModel);
         }

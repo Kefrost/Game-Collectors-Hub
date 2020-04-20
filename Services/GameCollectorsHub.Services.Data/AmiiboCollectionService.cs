@@ -11,10 +11,12 @@
     public class AmiiboCollectionService : IAmiiboCollectionService
     {
         private readonly IRepository<UserAmiiboCollection> repository;
+        private readonly IScrapeService scrapeService;
 
-        public AmiiboCollectionService(IRepository<UserAmiiboCollection> repository)
+        public AmiiboCollectionService(IRepository<UserAmiiboCollection> repository, IScrapeService scrapeService)
         {
             this.repository = repository;
+            this.scrapeService = scrapeService;
         }
 
         public ICollection<AmiiboCollectionItemViewModel> ListAllAmiibosCollection(string userId)
@@ -25,7 +27,7 @@
                 AmiiboImgUrl = a.Amiibo.ImgUrl,
                 AmiiboName = a.Amiibo.Name,
                 AmiiboSeries = a.Amiibo.AmiiboSeries.Name,
-                Value = a.PricePaid,
+                Value = a.IsItNewAndSealed ? this.scrapeService.GetPrices(a.Amiibo.PriceUrl).NewPrice : this.scrapeService.GetPrices(a.Amiibo.PriceUrl).UsedPrice,
                 Cost = a.PricePaid,
 
                 // TODO
@@ -42,7 +44,7 @@
                 AmiiboName = a.Amiibo.Name,
                 AmiiboSeries = a.Amiibo.AmiiboSeries.Name,
                 AmiiboImgUrl = a.Amiibo.ImgUrl,
-                Value = a.PricePaid,
+                Value = a.IsItNewAndSealed ? this.scrapeService.GetPrices(a.Amiibo.PriceUrl).NewPrice : this.scrapeService.GetPrices(a.Amiibo.PriceUrl).UsedPrice,
                 Cost = a.PricePaid,
 
                 // TODO
@@ -61,7 +63,7 @@
                 AmiiboName = a.Amiibo.Name,
                 AmiiboImgUrl = a.Amiibo.ImgUrl,
                 AmiiboSeries = a.Amiibo.AmiiboSeries.Name,
-                Value = a.PricePaid,
+                Value = a.IsItNewAndSealed ? this.scrapeService.GetPrices(a.Amiibo.PriceUrl).NewPrice : this.scrapeService.GetPrices(a.Amiibo.PriceUrl).UsedPrice,
                 Condition = a.IsItNewAndSealed ? "New and Sealed" : "Normal wear",
                 Cost = a.PricePaid,
 
@@ -109,7 +111,19 @@
 
         public bool IsAmiiboInCollection(string userId, int amiiboId)
         {
-            var amiibo = this.repository.All().Where(a => a.AmiiboId == amiiboId && a.UserId == userId).FirstOrDefault();
+            var amiibo = this.repository.All().Where(a => a.AmiiboId == amiiboId && a.UserId == userId && a.IsInWishlist == false).FirstOrDefault();
+
+            if (amiibo != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool IsAmiiboInWishlist(string userId, int amiiboId)
+        {
+            var amiibo = this.repository.All().Where(a => a.AmiiboId == amiiboId && a.UserId == userId && a.IsInWishlist == true).FirstOrDefault();
 
             if (amiibo != null)
             {

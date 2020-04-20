@@ -10,7 +10,7 @@
 
         public string AmiiboSeries { get; set; }
 
-        public decimal Value { get; set; }
+        public string Value { get; set; }
 
         public decimal Cost { get; set; }
 

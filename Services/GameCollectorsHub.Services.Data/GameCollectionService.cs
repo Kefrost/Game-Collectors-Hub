@@ -29,7 +29,6 @@
                 GameImgUrl = a.Game.ImageUrl,
                 PlatformName = a.Game.Platform.Name,
                 Value = a.IsItNewAndSealed ? this.scrapeService.GetPrices(a.Game.PriceUrl).NewPrice : a.BoxIncluded && a.ManualIncluded ? this.scrapeService.GetPrices(a.Game.PriceUrl).CompletePrice : this.scrapeService.GetPrices(a.Game.PriceUrl).UsedPrice,
-                // TODO
             }).OrderBy(a => a.GameName).ToList();
 
             return games;
@@ -44,8 +43,6 @@
                 GameImgUrl = a.Game.ImageUrl,
                 PlatformName = a.Game.Platform.Name,
                 Cost = a.PricePaid,
-                
-                // TODO
             }).OrderBy(a => a.GameName).ToList();
 
             return games;
@@ -78,7 +75,7 @@
                 Cost = a.PricePaid,
                 GameName = a.Game.Name,
                 PlatformName = a.Game.Platform.Name,
-                Value = a.PricePaid,
+                Value = a.IsItNewAndSealed ? this.scrapeService.GetPrices(a.Game.PriceUrl).NewPrice : a.BoxIncluded && a.ManualIncluded ? this.scrapeService.GetPrices(a.Game.PriceUrl).CompletePrice : this.scrapeService.GetPrices(a.Game.PriceUrl).UsedPrice,
                 WhatIncludes = includes,
             }).FirstOrDefault();
 

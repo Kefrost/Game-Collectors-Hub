@@ -32,14 +32,14 @@
                             <button class="btn btn-primary btn-lg btn-block" type="submit">Add to Your Wishlist!</button>
                         </form>
                     }
-                    else if(Model.IsInWishlist && !Model.IsInCollection)
+                    else if (Model.IsInWishlist && !Model.IsInCollection)
                     {
                         <a class="btn btn-danger btn-lg btn-block" asp-action="All" asp-controller="GameWishlist">Game is in your wishlist</a>
                     }
                 </div>
                 <div class="col-md-6">
                     <p class="lead">Our Review Score: @Model.OurReviewScore </p>
-                    <p class="lead">Users Score: 8</p>
+                    <p class="lead">Users Score: @Model.UserRatingScore</p>
                     <p class="lead">Current Prices:</p>
                     <p class="lead">Loose Price: @Model.UsedPrice</p>
                     <p class="lead">Complete Price: @Model.CompletePrice</p>
@@ -104,64 +104,80 @@
     </h2>
 
     <div class="container">
-        <div class="row">
-            <div class="comment">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="active"><a href="#comments" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Comments</h4></a></li>
-                    <li><a href="#add-comment" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Add comment</h4></a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="comments">
-                        <ul class="media-list rounded" style="background-color: gray">
-                            <li class="media">
-                                <div class="pull-left">
-                                    <div class="rounded" style="background-color: red">
-                                        <h2>8/10</h2>
-                                    </div>
-                                </div>
-                                <div class="media-body ml-3">
-                                    <div class="well well-lg">
-                                        <h4 class="media-heading text-uppercase reviews">Username</h4>
-                                        <p>
-                                            TextTextTextTextTextTextTextTextTextTextTextText
-                                            Text
-                                            Text
-                                            Text
-                                            Text
-                                            Text
-                                            Text
-
-                                        </p>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#ratings" role="tab" aria-controls="home" aria-selected="true">User ratings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#add-rating" role="tab" aria-controls="profile" aria-selected="false">Add rating</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="ratings" role="tabpanel" aria-labelledby="home-tab">
+                @if (!Model.UserRatings.Any())
+                {
+                    <h3 class=" font-italic text-center">No user ratings yet.</h3>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var rating in Model.UserRatings)
+                        {
+                            <li class="media mt-3">
+                                <div class="container rounded" style="width: 75%; background-color: gray">
+                                    <div class="media-body">
+                                        <h5 class="mt-0">@rating.UserName</h5>
+                                        <h3>Rating: @rating.RatingScore / 10</h3>
+                                        @rating.Content
                                     </div>
                                 </div>
                             </li>
-                        </ul>
-                    </div>
-                    <div class="tab-pane" id="add-comment">
-                        <form action="#" method="post" class="form-horizontal" id="commentForm" role="form">
-                            <div class="form-group">
-                                <label for="email" class="col-sm-2 control-label">Comment</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" name="addComment" id="addComment" rows="5"></textarea>
+                        }
+                    </ul>
+                }
+            </div>
+            <div class="tab-pane fade" id="add-rating" role="tabpanel" aria-labelledby="profile-tab">
+                <form asp-action="AddComment" method="post" class="form-horizontal">
+                    @if (Model.UserRatings.Any(a => a.UserId == Model.UserId))
+                    {
+                        <h3 class=" font-italic text-center">You can write review only once!</h3>
+                    }
+                    else
+                    {
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="Id" hidden value="@Model.Id" class="form-control" />
+                        <div class="form-group">
+                            <label asp-for="AddUserRatingScore" class="col-sm-2">Rating Score</label>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <label asp-for="AddUserRatingScore" class="control-label"></label>
+                                    <select asp-for="AddUserRatingScore" class="form-control">
+                                        @for (int i = 1; i <= 10; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="AddUserRatingScore" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="uploadMedia" class="col-sm-2 control-label">Upload media</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">http://</div>
-                                        <input type="text" class="form-control" name="uploadMedia" id="uploadMedia">
-                                    </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AddUserRatingContent" class="col-sm-2">Comment</label>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <label asp-for="AddUserRatingContent" class="control-label"></label>
+                                    <textarea asp-for="AddUserRatingContent" class="form-control"></textarea>
+                                    <span asp-validation-for="AddUserRatingContent" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button class="btn btn-success btn-circle text-uppercase" type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Summit comment</button>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="submit" value="Add Rating" class="btn btn-primary" />
                             </div>
-                        </form>
-                    </div>
-                </div>
+                        </div>
+                    }
+                </form>
             </div>
         </div>
     </div>

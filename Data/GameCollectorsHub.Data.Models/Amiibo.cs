@@ -21,6 +21,8 @@
         [Required]
         public string ImgUrl { get; set; }
 
+        public string PriceUrl { get; set; }
+
         [Required]
         public string Franchise { get; set; }
 

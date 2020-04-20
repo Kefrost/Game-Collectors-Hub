@@ -114,7 +114,19 @@
 
         public bool IsConsoleInCollection(string userId, int consoleId)
         {
-            var console = this.repository.All().Where(a => a.UserId == userId && a.GameConsoleId == consoleId).FirstOrDefault();
+            var console = this.repository.All().Where(a => a.UserId == userId && a.GameConsoleId == consoleId && a.IsInWishlist == false).FirstOrDefault();
+
+            if (console != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool IsConsoleInWishlist(string userId, int consoleId)
+        {
+            var console = this.repository.All().Where(a => a.UserId == userId && a.GameConsoleId == consoleId && a.IsInWishlist == true).FirstOrDefault();
 
             if (console != null)
             {

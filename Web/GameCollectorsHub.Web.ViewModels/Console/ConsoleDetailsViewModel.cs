@@ -23,6 +23,8 @@
 
         public bool IsInCollection { get; set; }
 
+        public bool IsInWishlist { get; set; }
+
         public int PlatformId { get; set; }
 
         public IEnumerable<ConsoleLaunchTitlesViewModel> LauchTitles { get; set; }

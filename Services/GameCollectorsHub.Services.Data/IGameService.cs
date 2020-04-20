@@ -24,5 +24,9 @@
         public Task AddGameToCollectionAsync(int gameId, string userId, decimal pricePaid, bool boxIncluded, bool manualIncluded, bool isItNewAndSealed);
 
         public Task AddGameToWishlistAsync(int gameId, string userId);
+
+        public Task<int> AddRating(string userId, int gameId, int ratingScore, string content);
+
+        public IEnumerable<GameUserRatingViewModel> GetGameUserRatings(int id);
     }
 }

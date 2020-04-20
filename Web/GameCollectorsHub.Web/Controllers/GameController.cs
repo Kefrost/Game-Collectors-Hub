@@ -38,23 +38,31 @@
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var userId = this.userManager.GetUserId(this.User);
 
             var viewModel = this.gameService.GetGameDetails(id);
 
             var reviews = this.reviewService.GetReviewsForGame(id);
 
+            var userRatings = this.gameService.GetGameUserRatings(id);
+
             viewModel.Reviews = reviews;
 
             viewModel.OurReviewScore = reviews.Any() ? reviews.Average(a => decimal.Parse(a.OurReviewScore)).ToString() : "N/A";
 
-            if (user != null)
-            {
-                viewModel.IsInCollection = this.colectionService.IsGameInCollection(user.Id, id);
+            viewModel.UserRatingScore = userRatings.Any() ? userRatings.Average(a => a.RatingScore).ToString() : "N/A";
 
-                viewModel.IsInWishlist = this.colectionService.IsGameInWishlist(user.Id, id);
+            viewModel.UserRatings = userRatings;
+
+            viewModel.UserId = userId;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                viewModel.IsInCollection = this.colectionService.IsGameInCollection(userId, id);
+
+                viewModel.IsInWishlist = this.colectionService.IsGameInWishlist(userId, id);
             }
 
             return this.View(viewModel);
@@ -180,6 +188,15 @@
             await this.gameService.AddGameToWishlistAsync(gameId, user.Id);
 
             return this.Redirect("/GameWishlist/All");
+        }
+
+        public async Task<IActionResult> AddComment(GameDetailsViewModel model)
+        {
+            var userId = this.userManager.GetUserId(this.User);
+
+            await this.gameService.AddRating(userId, model.Id, model.AddUserRatingScore, model.AddUserRatingContent);
+
+            return this.RedirectToAction("Details", new { id = model.Id });
         }
     }
 }

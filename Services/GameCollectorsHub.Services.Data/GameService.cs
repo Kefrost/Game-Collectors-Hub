@@ -14,11 +14,13 @@
     {
         private readonly IRepository<Game> repository;
         private readonly IRepository<UserGameCollection> collectionRepository;
+        private readonly IScrapeService scrapeService;
 
-        public GameService(IRepository<Game> repository, IRepository<UserGameCollection> collectionRepository)
+        public GameService(IRepository<Game> repository, IRepository<UserGameCollection> collectionRepository, IScrapeService scrapeService)
         {
             this.repository = repository;
             this.collectionRepository = collectionRepository;
+            this.scrapeService = scrapeService;
         }
 
         public async Task<int> CreateGameAsync(AddGameInputModel model)
@@ -34,6 +36,8 @@
                 PlatformId = model.PlatformId,
                 Publisher = model.Publisher,
                 Series = model.Series,
+                IsLaunchTitle = model.IsLaunchTitle,
+                PriceUrl = model.PriceUrl,
             };
 
             await this.repository.AddAsync(game);
@@ -63,6 +67,8 @@
 
         public GameDetailsViewModel GetGameDetails(int id)
         {
+            var priceUrl = this.repository.All().Where(a => a.Id == id).Select(a => a.PriceUrl).FirstOrDefault();
+
             var game = this.repository.All().Where(a => a.Id == id).Select(a => new GameDetailsViewModel
             {
                 Id = a.Id,
@@ -78,6 +84,12 @@
                 Series = a.Series,
                 Reviews = new List<GameDetailsReviewViewModel>(),
             }).FirstOrDefault();
+
+            var prices = this.scrapeService.GetPrices(priceUrl);
+
+            game.UsedPrice = prices.UsedPrice;
+            game.CompletePrice = prices.CompletePrice;
+            game.NewPrice = prices.NewPrice;
 
             return game;
         }

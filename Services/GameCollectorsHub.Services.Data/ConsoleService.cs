@@ -32,6 +32,7 @@
                 Model = model.Model,
                 ReleaseDate = model.ReleaseDate,
                 PlatformId = model.PlatformId,
+                GamesReleased = model.GamesReleased,
             };
 
             await this.repository.AddAsync(console);

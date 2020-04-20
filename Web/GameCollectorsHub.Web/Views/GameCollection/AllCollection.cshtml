@@ -28,7 +28,7 @@
                             <td><img src="@game.GameImgUrl" style="max-height: 85px; max-width: 85px;" /></td>
                             <td><a asp-action="Details" asp-route-gameId="@game.GameId">@game.GameName (@game.PlatformName)</a></td>
                             <td>@game.Cost.ToString("F2") $</td>
-                            <td>@game.Value.ToString("F2") $</td>
+                            <td>@game.Value $</td>
                             <td>
                                 <a asp-action="Edit" asp-route-gameId="@game.GameId">Edit Details</a> | 
                                 <a asp-action="Delete" asp-route-gameId="@game.GameId">Remove</a>

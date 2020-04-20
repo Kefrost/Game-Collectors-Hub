@@ -15,6 +15,8 @@
         [Required]
         public string ImageUrl { get; set; }
 
+        public string PriceUrl { get; set; }
+
         [Required]
         public DateTime ReleaseDate { get; set; }
 

@@ -34,5 +34,12 @@
         public bool IsInWishlist { get; set; }
 
         public IEnumerable<GameDetailsReviewViewModel> Reviews { get; set; }
+
+        public string UsedPrice { get; set; }
+
+        public string CompletePrice { get; set; }
+
+        public string NewPrice { get; set; }
+
     }
 }

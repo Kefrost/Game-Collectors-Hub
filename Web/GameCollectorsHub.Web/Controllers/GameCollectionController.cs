@@ -28,10 +28,19 @@
 
             var games = this.service.ListAllGameCollection(user.Id);
 
+            var value = 0.0m;
+
+            foreach (var game in games)
+            {
+                var resValue = 0.0m;
+                var parse = decimal.TryParse(game.Value.Replace("\n", string.Empty).Replace('$', ' ').Trim(), out resValue);
+                value += resValue;
+            }
+
             var viewModel = new AllGameCollectionViewModel
             {
                 GameCollectionItems = games,
-                CollectionValue = games.Sum(a => a.Value),
+                CollectionValue = value,
                 TotalYouPaid = games.Sum(a => a.Cost),
             };
 

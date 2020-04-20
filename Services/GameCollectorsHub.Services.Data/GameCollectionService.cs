@@ -11,10 +11,12 @@
     public class GameCollectionService : IGameCollectionService
     {
         private readonly IRepository<UserGameCollection> repository;
+        private readonly IScrapeService scrapeService;
 
-        public GameCollectionService(IRepository<UserGameCollection> repository)
+        public GameCollectionService(IRepository<UserGameCollection> repository, IScrapeService scrapeService)
         {
             this.repository = repository;
+            this.scrapeService = scrapeService;
         }
 
         public ICollection<GameCollectionItemViewModel> ListAllGameCollection(string userId)
@@ -26,8 +28,7 @@
                 GameName = a.Game.Name,
                 GameImgUrl = a.Game.ImageUrl,
                 PlatformName = a.Game.Platform.Name,
-                Value = 50,
-
+                Value = a.IsItNewAndSealed ? this.scrapeService.GetPrices(a.Game.PriceUrl).NewPrice : a.BoxIncluded && a.ManualIncluded ? this.scrapeService.GetPrices(a.Game.PriceUrl).CompletePrice : this.scrapeService.GetPrices(a.Game.PriceUrl).UsedPrice,
                 // TODO
             }).OrderBy(a => a.GameName).ToList();
 
@@ -42,7 +43,8 @@
                 GameName = a.Game.Name,
                 GameImgUrl = a.Game.ImageUrl,
                 PlatformName = a.Game.Platform.Name,
-
+                Cost = a.PricePaid,
+                
                 // TODO
             }).OrderBy(a => a.GameName).ToList();
 

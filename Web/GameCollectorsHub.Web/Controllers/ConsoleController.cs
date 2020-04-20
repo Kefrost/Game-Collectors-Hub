@@ -1,5 +1,7 @@
 ﻿namespace GameCollectorsHub.Web.Controllers
 {
+    using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using GameCollectorsHub.Data.Models;
@@ -69,11 +71,31 @@
             return this.RedirectToAction("Details", new { id = consoleId });
         }
 
-        public IActionResult Browse(int id)
+        public IActionResult Browse(int id, int page = 1)
         {
+            const int countPerPage = 12;
+
             var consoles = this.console.GetAllByPlatform(id);
 
+            double pages;
+
+            if ((double)(consoles.Count() % countPerPage) == 0)
+            {
+                pages = consoles.Count() / countPerPage;
+            }
+            else
+            {
+                pages = Math.Floor((double)(consoles.Count() / countPerPage));
+                pages++;
+            }
+
+            consoles = consoles.Skip((page - 1) * countPerPage);
+
+            consoles = consoles.Take(countPerPage);
+
             var viewModel = new ListConsolesViewModel { Consoles = consoles };
+
+            viewModel.PagesCount = (int)pages;
 
             return this.View(viewModel);
         }

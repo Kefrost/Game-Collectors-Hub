@@ -5,5 +5,7 @@
     public class ListConsolesViewModel
     {
         public IEnumerable<ListConsoleDetailsViewModel> Consoles { get; set; }
+
+        public int PagesCount { get; set; }
     }
 }

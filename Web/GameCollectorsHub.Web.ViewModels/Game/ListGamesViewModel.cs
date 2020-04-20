@@ -5,5 +5,7 @@
     public class ListGamesViewModel
     {
         public IEnumerable<ListGameDetailsViewModel> Games { get; set; }
+
+        public int PagesCount { get; set; }
     }
 }

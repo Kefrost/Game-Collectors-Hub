@@ -1,6 +1,7 @@
 ﻿namespace GameCollectorsHub.Web.Controllers
-    {
+{
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -59,7 +60,7 @@
 
             viewModel.UserId = userId;
 
-            if (string.IsNullOrEmpty(userId))
+            if (!string.IsNullOrEmpty(userId))
             {
                 viewModel.IsInCollection = this.colectionService.IsGameInCollection(userId, id);
 
@@ -69,12 +70,14 @@
             return this.View(viewModel);
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return this.View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create(AddGameInputModel model)
         {
             if (!this.ModelState.IsValid)
@@ -85,6 +88,36 @@
             var gameId = await this.gameService.CreateGameAsync(model);
 
             return this.RedirectToAction("Details", new { id = gameId });
+        }
+
+        public IActionResult Search(PlatformsViewModel model, int page = 1)
+        {
+            const int countPerPage = 12;
+
+            var games = this.gameService.GetAllBySearchName(model.SearchString);
+
+            double pages;
+
+            if ((double)(games.Count() % countPerPage) == 0)
+            {
+                pages = games.Count() / countPerPage;
+            }
+            else
+            {
+                pages = Math.Floor((double)(games.Count() / countPerPage));
+                pages++;
+            }
+
+            games = games.Skip((page - 1) * countPerPage);
+
+            games = games.Take(countPerPage);
+
+            var viewModel = new ListGamesViewModel { Games = games };
+
+            viewModel.PagesCount = (int)pages;
+            viewModel.displayName = $"'{model.SearchString}'";
+
+            return this.View("Browse", viewModel);
         }
 
         public IActionResult Browse(int id, int page = 1)
@@ -113,9 +146,12 @@
 
             viewModel.PagesCount = (int)pages;
 
+            viewModel.displayName = Enum.GetName(typeof(PlatformEnum), id);
+
             return this.View(viewModel);
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Edit(int id)
         {
             var game = this.gameService.GetGameDetails(id);
@@ -138,6 +174,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(AddGameInputModel model)
         {
             if (!this.ModelState.IsValid)
@@ -150,6 +187,7 @@
             return this.RedirectToAction("Details", new { id = model.Id });
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Delete(int id)
         {
             var game = this.gameService.GetGameDetails(id);
@@ -172,6 +210,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
             var platformId = await this.gameService.DeleteGameAsync(id);
@@ -211,6 +250,7 @@
             return this.Redirect("/GameWishlist/All");
         }
 
+        [Authorize]
         public async Task<IActionResult> AddComment(GameDetailsViewModel model)
         {
             var userId = this.userManager.GetUserId(this.User);

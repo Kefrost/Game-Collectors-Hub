@@ -5,6 +5,7 @@
     using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Web.ViewModels.ConsoleCollection;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize]
         public async Task<IActionResult> All()
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -30,6 +32,7 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> Delete(int consoleId)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -47,6 +50,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirm(int consoleId)
         {
             var user = await this.userManager.GetUserAsync(this.User);

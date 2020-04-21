@@ -225,5 +225,23 @@
 
             return comments;
         }
+
+        public IEnumerable<ListGameDetailsViewModel> GetAllBySearchName(string name)
+        {
+            var games = this.repository.All()
+                .Where(a => a.Name.ToLower().Contains(name.ToLower()))
+                .Select(a => new ListGameDetailsViewModel
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    ImgUrl = a.ImageUrl,
+                    Developer = a.Developer,
+                    Publisher = a.Publisher,
+                    ReleaseDate = a.ReleaseDate,
+                    PlatformName = a.Platform.Name,
+                }).OrderBy(a => a.Name).ToList();
+
+            return games;
+        }
     }
 }

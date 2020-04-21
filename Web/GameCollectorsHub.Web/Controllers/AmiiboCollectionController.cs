@@ -7,6 +7,7 @@
     using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Web.ViewModels.AmiiboCollection;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -21,11 +22,12 @@
             this.userManager = userManager;
         }
 
-        public async Task<IActionResult> AllCollection()
+        [Authorize]
+        public IActionResult AllCollection()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var userId = this.userManager.GetUserId(this.User);
 
-            var amiibos = this.service.ListAllAmiibosCollection(user.Id);
+            var amiibos = this.service.ListAllAmiibosCollection(userId);
 
             var value = 0.0m;
 
@@ -47,20 +49,22 @@
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> Details(int amiiboId)
+        [Authorize]
+        public IActionResult Details(int amiiboId)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var userId = this.userManager.GetUserId(this.User);
 
-            var viewModel = this.service.GetAmiiboCollectionDetails(user.Id, amiiboId);
+            var viewModel = this.service.GetAmiiboCollectionDetails(userId, amiiboId);
 
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> Edit(int amiiboId)
+        [Authorize]
+        public IActionResult Edit(int amiiboId)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var userId = this.userManager.GetUserId(this.User);
 
-            var amiibo = this.service.GetAmiiboCollectionInputDetails(user.Id, amiiboId);
+            var amiibo = this.service.GetAmiiboCollectionInputDetails(userId, amiiboId);
 
             var viewModel = new AddAmiiboToCollectionInputModel
             {
@@ -75,6 +79,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Edit(AddAmiiboToCollectionInputModel model)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -84,11 +89,12 @@
             return this.RedirectToAction("Details", new { amiiboId = model.AmiiboId });
         }
 
-        public async Task<IActionResult> Delete(int amiiboId)
+        [Authorize]
+        public IActionResult Delete(int amiiboId)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var userId = this.userManager.GetUserId(this.User);
 
-            var amiibo = this.service.GetAmiiboCollectionInputDetails(user.Id, amiiboId);
+            var amiibo = this.service.GetAmiiboCollectionInputDetails(userId, amiiboId);
 
             var viewModel = new AddAmiiboToCollectionInputModel
             {
@@ -103,6 +109,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirm(int amiiboId)
         {
             var user = await this.userManager.GetUserAsync(this.User);

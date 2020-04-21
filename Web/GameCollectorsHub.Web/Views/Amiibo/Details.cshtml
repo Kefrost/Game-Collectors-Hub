@@ -1,4 +1,5 @@
-﻿@model GameCollectorsHub.Web.ViewModels.Amiibo.AmiiboDetailsViewModel
+﻿@using GameCollectorsHub.Common
+@model GameCollectorsHub.Web.ViewModels.Amiibo.AmiiboDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -59,11 +60,13 @@
 
             <p>@Model.Description</p>
 
-            <div class="mt-4">
-                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
-                <a asp-action="Browse" asp-route-id="@Model.AmiiboSeriesId">Back to @Model.AmiiboSeriesName Amiibos</a>
-            </div>
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <div class="mt-4">
+                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                </div>
+            }
         </div>
 
         <aside class="col-md-4 blog-sidebar p-3">

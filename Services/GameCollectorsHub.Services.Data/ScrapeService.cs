@@ -15,19 +15,28 @@ namespace GameCollectorsHub.Services.Data
 
             var model = new PriceScrapeDataViewModel();
 
-            var webpage = browser.NavigateToPage(new Uri(url)).Html;
+            if (!string.IsNullOrEmpty(url))
+            {
+                var webpage = browser.NavigateToPage(new Uri(url)).Html;
 
-            HtmlNode used = webpage.OwnerDocument.DocumentNode.SelectSingleNode("//*[@id=\"used_price\"]/span");
+                HtmlNode used = webpage.OwnerDocument.DocumentNode.SelectSingleNode("//*[@id=\"used_price\"]/span");
 
-            model.UsedPrice = used == null ? "N/A" : used.InnerText;
+                model.UsedPrice = used == null ? "N/A" : used.InnerText;
 
-            HtmlNode complete = webpage.OwnerDocument.DocumentNode.SelectSingleNode("//*[@id=\"complete_price\"]/span");
+                HtmlNode complete = webpage.OwnerDocument.DocumentNode.SelectSingleNode("//*[@id=\"complete_price\"]/span");
 
-            model.CompletePrice = complete == null ? "N/A" : complete.InnerText;
+                model.CompletePrice = complete == null ? "N/A" : complete.InnerText;
 
-            HtmlNode newPrice = webpage.OwnerDocument.DocumentNode.SelectSingleNode("//*[@id=\"new_price\"]/span");
+                HtmlNode newPrice = webpage.OwnerDocument.DocumentNode.SelectSingleNode("//*[@id=\"new_price\"]/span");
 
-            model.NewPrice = newPrice == null ? "N/A" : newPrice.InnerText;
+                model.NewPrice = newPrice == null ? "N/A" : newPrice.InnerText;
+            }
+            else
+            {
+                model.UsedPrice = "N/A";
+                model.CompletePrice = "N/A";
+                model.NewPrice = "N/A";
+            }
 
             return model;
         }

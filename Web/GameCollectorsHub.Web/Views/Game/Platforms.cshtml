@@ -9,6 +9,18 @@
             <h1>Select platform</h1>
         </div>
 
+        <form class="form-inline mt-4 justify-content-center" asp-action="Search">
+            <div class="form-group mb-2">
+                <label class="sr-only">Search Games</label>
+                <input type="text" readonly class="form-control-plaintext" value="Search in Games">
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+                <label asp-for="SearchString" class="sr-only">Game</label>
+                <input asp-for="SearchString" type="text" class="form-control" id="search" placeholder="Super Mario...">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Search!</button>
+        </form>
+
         <div class="py-5">
             <div class="row">
                 @foreach (var platform in Model.Platforms)

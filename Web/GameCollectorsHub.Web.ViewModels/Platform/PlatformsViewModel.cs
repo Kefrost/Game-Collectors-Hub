@@ -5,5 +5,7 @@
     public class PlatformsViewModel
     {
         public IEnumerable<PlatformDetailsViewModel> Platforms { get; set; }
+
+        public string SearchString { get; set; }
     }
 }

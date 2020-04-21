@@ -1,4 +1,5 @@
-﻿@model GameCollectorsHub.Web.ViewModels.GameReview.GameReviewDetailsViewModel
+﻿@using GameCollectorsHub.Common
+@model GameCollectorsHub.Web.ViewModels.GameReview.GameReviewDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -20,7 +21,7 @@
 
 <main role="main" class="container bg-light">
 
-        @Html.Raw(Model.Content)
+    @Html.Raw(Model.Content)
 
     <hr />
 
@@ -84,10 +85,12 @@
         </div>
     </div>
 
-    <div class="mt-4">
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-    </div>
-
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <div class="mt-4">
+            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+            <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+        </div>
+    }
 </main>
 

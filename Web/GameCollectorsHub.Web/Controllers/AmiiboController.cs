@@ -48,12 +48,14 @@
             return this.View(viewModel);
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return this.View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create(AddAmiiboInputModel model)
         {
             if (!this.ModelState.IsValid)
@@ -75,6 +77,7 @@
             return this.View(viewModel);
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Edit(int id)
         {
             var amiibo = this.service.GetAmiiboDetails(id);
@@ -94,6 +97,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(AddAmiiboInputModel input)
         {
             if (!this.ModelState.IsValid)
@@ -106,6 +110,7 @@
             return this.RedirectToAction("Details", new { id = input.Id });
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Delete(int id)
         {
             var amiibo = this.service.GetAmiiboDetails(id);
@@ -125,6 +130,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
             var platformId = await this.service.DeleteAmiiboAsync(id);

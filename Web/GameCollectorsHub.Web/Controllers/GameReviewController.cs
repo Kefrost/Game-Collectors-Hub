@@ -8,6 +8,7 @@
     using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Web.ViewModels.GameReview;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create(int gameId)
         {
             var game = this.gameService.GetGameDetails(gameId);
@@ -34,6 +36,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create(AddGameReviewInputModel model)
         {
             if (!this.ModelState.IsValid)
@@ -56,6 +59,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddComment(GameReviewDetailsViewModel model)
         {
             var userId = this.userManager.GetUserId(this.User);
@@ -65,6 +69,7 @@
             return this.RedirectToAction("View", new { id = model.Id });
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Edit(int id)
         {
             var review = this.reviewService.GetReview(id);
@@ -84,6 +89,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(AddGameReviewInputModel model)
         {
             await this.reviewService.EditReview(model.Id, model.Title, model.RatingScore, model.Content);
@@ -91,6 +97,7 @@
             return this.RedirectToAction("View", new { id = model.Id });
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Delete(int id)
         {
             var viewModel = this.reviewService.GetReview(id);
@@ -99,6 +106,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
             var gameId = await this.reviewService.DeleteReviewAsync(id);

@@ -8,6 +8,7 @@
     using GameCollectorsHub.Data.Models;
     using GameCollectorsHub.Services.Data;
     using GameCollectorsHub.Web.ViewModels.GameCollection;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize]
         public async Task<IActionResult> AllCollection()
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -49,6 +51,7 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> Details(int gameId)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -58,6 +61,7 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> Edit(int gameId)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -79,6 +83,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Edit(AddGameToCollectionInputModel model)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -88,6 +93,7 @@
             return this.RedirectToAction("Details", new { gameId = model.GameId });
         }
 
+        [Authorize]
         public async Task<IActionResult> Delete(int gameId)
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -109,6 +115,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirm(int gameId)
         {
             var user = await this.userManager.GetUserAsync(this.User);

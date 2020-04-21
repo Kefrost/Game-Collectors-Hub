@@ -7,5 +7,7 @@
         public IEnumerable<ListGameDetailsViewModel> Games { get; set; }
 
         public int PagesCount { get; set; }
+
+        public string displayName { get; set; }
     }
 }

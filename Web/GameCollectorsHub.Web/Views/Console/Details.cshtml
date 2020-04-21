@@ -1,4 +1,5 @@
-﻿@model GameCollectorsHub.Web.ViewModels.Console.ConsoleDetailsViewModel
+﻿@using GameCollectorsHub.Common
+@model GameCollectorsHub.Web.ViewModels.Console.ConsoleDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -65,14 +66,16 @@
 
     @if (!Model.LauchTitles.Any())
     {
-        <h3 class=" font-italic text-center">Sorry, no launch titles for @Model.Name yet.</h3>
+    <h3 class=" font-italic text-center">Sorry, no launch titles for @Model.Name yet.</h3>
     }
 
+    @if(this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
     <div class="mt-4">
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
-        <a asp-action="Browse" asp-route-id="@Model.PlatformId">Back to @Model.Name consoles</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
     </div>
+    }
 
 </main>
 

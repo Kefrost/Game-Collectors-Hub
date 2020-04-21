@@ -28,5 +28,7 @@
         public Task<int> AddRating(string userId, int gameId, int ratingScore, string content);
 
         public IEnumerable<GameUserRatingViewModel> GetGameUserRatings(int id);
+
+        public IEnumerable<ListGameDetailsViewModel> GetAllBySearchName(string name);
     }
 }

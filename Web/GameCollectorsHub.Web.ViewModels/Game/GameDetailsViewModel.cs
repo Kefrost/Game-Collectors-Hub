@@ -57,5 +57,7 @@
 
         public string NewPrice { get; set; }
 
+        public bool IsLaunchTitle { get; set; }
+
     }
 }

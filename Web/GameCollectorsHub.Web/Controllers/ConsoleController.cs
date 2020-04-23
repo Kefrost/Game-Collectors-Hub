@@ -17,13 +17,15 @@
     {
         private readonly IPlatformService platform;
         private readonly IConsoleService console;
+        private readonly IGameService gameService;
         private readonly IConsoleCollectionService collectionService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public ConsoleController(IPlatformService platform, IConsoleService console, IConsoleCollectionService collectionService, UserManager<ApplicationUser> userManager)
+        public ConsoleController(IPlatformService platform, IConsoleService console, IGameService gameService, IConsoleCollectionService collectionService, UserManager<ApplicationUser> userManager)
         {
             this.platform = platform;
             this.console = console;
+            this.gameService = gameService;
             this.collectionService = collectionService;
             this.userManager = userManager;
         }
@@ -49,6 +51,10 @@
 
                 viewModel.IsInWishlist = this.collectionService.IsConsoleInWishlist(userId, id);
             }
+
+            var launchTitles = this.gameService.GetLaunchTitles(viewModel.PlatformId);
+
+            viewModel.LauchTitles = launchTitles;
 
             return this.View(viewModel);
         }

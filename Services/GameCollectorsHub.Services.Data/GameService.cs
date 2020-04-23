@@ -85,6 +85,7 @@
                 ReleaseDate = a.ReleaseDate,
                 Series = a.Series,
                 Reviews = new List<GameDetailsReviewViewModel>(),
+                IsLaunchTitle = a.IsLaunchTitle,
             }).FirstOrDefault();
 
             var prices = this.scrapeService.GetPrices(priceUrl);
@@ -110,6 +111,7 @@
             game.Publisher = model.Publisher;
             game.Series = model.Series;
             game.PriceUrl = model.PriceUrl;
+            game.IsLaunchTitle = model.IsLaunchTitle;
 
             this.repository.Update(game);
             await this.repository.SaveChangesAsync();

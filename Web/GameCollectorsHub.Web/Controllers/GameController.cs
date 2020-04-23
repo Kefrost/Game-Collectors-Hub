@@ -168,6 +168,7 @@
                 Genre = game.Genre,
                 Series = game.Series,
                 PlatformId = game.PlatformId,
+                IsLaunchTitle = game.IsLaunchTitle,
             };
 
             return this.View(viewModel);

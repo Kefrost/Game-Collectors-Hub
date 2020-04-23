@@ -213,10 +213,22 @@
             return comment.GameId;
         }
 
+        public async Task DeleteRating(int gameId, int ratingId)
+        {
+            var rating = this.ratingRepository.All().Where(a => a.Id == ratingId && a.GameId == gameId).FirstOrDefault();
+
+            rating.IsDeleted = true;
+
+            this.ratingRepository.Update(rating);
+
+            await this.ratingRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<GameUserRatingViewModel> GetGameUserRatings(int id)
         {
             var comments = this.ratingRepository.All().Where(a => a.GameId == id).OrderByDescending(a => a.CreatedOn).Select(a => new GameUserRatingViewModel
             {
+                Id = a.Id,
                 UserId = a.UserId,
                 UserName = a.User.UserName,
                 Content = a.Content,

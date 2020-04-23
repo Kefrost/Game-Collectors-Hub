@@ -59,6 +59,8 @@
         {
             var comments = this.commentRepository.All().Where(a => a.ReviewId == id).OrderByDescending(a => a.CreatedOn).Select(a => new ReviewCommentViewModel
             {
+                Id = a.Id,
+                CreatedOn = a.CreatedOn,
                 UserId = a.UserId,
                 UserName = a.User.UserName,
                 Content = a.Content,
@@ -66,6 +68,7 @@
 
             return comments;
         }
+
 
         public async Task EditReview(int id, string title, int score, string content)
         {
@@ -119,6 +122,17 @@
             await this.commentRepository.SaveChangesAsync();
 
             return comment.ReviewId;
+        }
+
+        public async Task DeleteComment(int reviewId, int commentId)
+        {
+            var rating = this.commentRepository.All().Where(a => a.Id == commentId && a.ReviewId == reviewId).FirstOrDefault();
+
+            rating.IsDeleted = true;
+
+            this.commentRepository.Update(rating);
+
+            await this.commentRepository.SaveChangesAsync();
         }
     }
 }

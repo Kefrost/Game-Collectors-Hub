@@ -39,8 +39,24 @@
                     }
                 </div>
                 <div class="col-md-6">
-                    <p class="lead">Our Review Score: @Model.OurReviewScore </p>
-                    <p class="lead">Users Score: @Model.UserRatingScore</p>
+
+                    @if (Model.OurReviewScore == "N/A")
+                    {
+                        <p class="lead"> Our Review Score: @Model.OurReviewScore</p>
+                    }
+                    else
+                    {
+                        <p class="lead"> Our Review Score: @Model.OurReviewScore/10</p>
+                    }
+
+                    @if (Model.UserRatingScore == "N/A")
+                    {
+                        <p class="lead">Users Score: @Model.UserRatingScore</p>
+                    }
+                    else
+                    {
+                        <p class="lead">Users Score: @Model.UserRatingScore/10</p>
+                    }
                     <p class="lead">Current Prices:</p>
                     <p class="lead">Loose Price: @Model.UsedPrice</p>
                     <p class="lead">Complete Price: @Model.CompletePrice</p>
@@ -78,6 +94,10 @@
     <h2 class="pb-4 mb-4 font-italic border-bottom">
         Reviews
     </h2>
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <h4><a asp-controller="GameReview" asp-action="Create" asp-route-gameId="@Model.Id">Create Review</a></h4>
+    }
 
     @if (!Model.Reviews.Any() || Model.Reviews == null)
     {
@@ -130,6 +150,10 @@
                                         <h5 class="mt-0">@rating.UserName</h5>
                                         <h3>Rating: @rating.RatingScore / 10</h3>
                                         @rating.Content
+                                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                        {
+                                            <h5><a asp-action="DeleteComment" asp-route-gameId="@Model.Id" asp-route-ratingId="@rating.Id">Delete</a></h5>
+                                        }
                                     </div>
                                 </div>
                             </li>

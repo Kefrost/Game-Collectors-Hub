@@ -20,5 +20,7 @@
         public Task<int> AddComment(string userId, int reviewId, string content);
 
         public IEnumerable<ReviewCommentViewModel> GetReviewComments(int id);
+
+        public Task DeleteComment(int reviewId, int commentId);
     }
 }

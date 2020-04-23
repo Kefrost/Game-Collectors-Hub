@@ -53,7 +53,12 @@
                                 <div class="container rounded" style="width: 75%; background-color: gray">
                                     <div class="media-body">
                                         <h5 class="mt-0">@comment.UserName</h5>
-                                        @comment.Content
+                                        <h5>@comment.CreatedOn.ToShortDateString()</h5>
+                                        <a>@comment.Content</a>
+                                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                        {
+                                            <h5><a asp-action="DeleteComment" asp-route-reviewId="@Model.Id" asp-route-commentId="@comment.Id">Delete</a></h5>
+                                        }
                                     </div>
                                 </div>
                             </li>

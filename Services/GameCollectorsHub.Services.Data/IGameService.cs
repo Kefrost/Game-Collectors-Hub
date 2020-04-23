@@ -30,5 +30,7 @@
         public IEnumerable<GameUserRatingViewModel> GetGameUserRatings(int id);
 
         public IEnumerable<ListGameDetailsViewModel> GetAllBySearchName(string name);
+
+        public Task DeleteRating(int gameId, int ratingId);
     }
 }

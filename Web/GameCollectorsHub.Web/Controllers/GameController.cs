@@ -259,5 +259,13 @@
 
             return this.RedirectToAction("Details", new { id = model.Id });
         }
+
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> DeleteComment(int gameId, int ratingId)
+        {
+            await this.gameService.DeleteRating(gameId, ratingId);
+
+            return this.RedirectToAction("Details", new { id = gameId });
+        }
     }
 }

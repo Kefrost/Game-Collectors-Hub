@@ -70,6 +70,14 @@
         }
 
         [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> DeleteComment(int reviewId, int commentId)
+        {
+            await this.reviewService.DeleteComment(reviewId, commentId);
+
+            return this.RedirectToAction("View", new { id = reviewId });
+        }
+
+        [Authorize(Roles = "Administrator")]
         public IActionResult Edit(int id)
         {
             var review = this.reviewService.GetReview(id);

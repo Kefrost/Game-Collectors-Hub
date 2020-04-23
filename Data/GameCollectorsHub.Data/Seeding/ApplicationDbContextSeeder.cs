@@ -29,6 +29,8 @@
                               new SettingsSeeder(),
                               new PlatformSeeder(),
                               new AmiiboSeriesSeeder(),
+                              new UserSeeder(),
+                              new GamesSeeder(),
                           };
 
             foreach (var seeder in seeders)

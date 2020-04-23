@@ -6,6 +6,8 @@ namespace GameCollectorsHub.Web.ViewModels.Game
 {
     public class GameUserRatingViewModel
     {
+        public int Id { get; set; }
+
         public string UserId { get; set; }
 
         public string UserName { get; set; }

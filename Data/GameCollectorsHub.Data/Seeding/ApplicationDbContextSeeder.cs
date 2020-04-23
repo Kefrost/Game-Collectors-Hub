@@ -31,6 +31,8 @@
                               new AmiiboSeriesSeeder(),
                               new UserSeeder(),
                               new GamesSeeder(),
+                              new ConsolesSeeder(),
+                              new AmiibosSeeder(),
                           };
 
             foreach (var seeder in seeders)

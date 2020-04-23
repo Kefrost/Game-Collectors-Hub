@@ -1,5 +1,6 @@
 ﻿namespace GameCollectorsHub.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using GameCollectorsHub.Data.Models;
@@ -73,6 +74,8 @@
             var amiibos = this.service.GetAllBySeries(id);
 
             var viewModel = new AllAmiibosViewModel { Amiibos = amiibos };
+
+            viewModel.DisplayName = Enum.GetName(typeof(AmiiboSeriesEnum), id);
 
             return this.View(viewModel);
         }

@@ -105,6 +105,8 @@
 
             viewModel.PagesCount = (int)pages;
 
+            viewModel.DisplayName = Enum.GetName(typeof(PlatformEnum), id);
+
             return this.View(viewModel);
         }
 

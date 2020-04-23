@@ -5,5 +5,7 @@
     public class AllAmiibosViewModel
     {
         public IEnumerable<AllAmiiboDetailsViewModel> Amiibos { get; set; }
+
+        public string DisplayName { get; set; }
     }
 }

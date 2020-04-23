@@ -13,9 +13,9 @@
             <div class="row">
                 @foreach (var console in Model.Consoles)
                 {
-                    <div class="col-lg-3 col-md-3 col-sm-12 mt-4">
-                        <div class="card box-shadow" style="width: 260px; height: 100%">
-                            <a asp-action="Details" asp-route-id="@console.Id"><img src="@console.ImgUrl" class="card-img-top" alt="@console.Name" style="height: 250px; width: 250px;"></a>
+                    <div class="col-lg-4 col-md-4 col-sm-12 mt-4">
+                        <div class="card box-shadow" style="width: 300px; height: 100%">
+                            <a asp-action="Details" asp-route-id="@console.Id"><img src="@console.ImgUrl" class="card-img-top" alt="@console.Name" style="width: 300px;"></a>
                             <div class="card-body">
                                 <div class="text-center">
                                     <h5 class="card-title">@console.Name</h5>

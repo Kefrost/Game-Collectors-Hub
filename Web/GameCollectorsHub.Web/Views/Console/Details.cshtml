@@ -88,7 +88,7 @@
             {
             <div class="col-lg-4 col-md-4 col-sm-12 mt-4 text-center">
                 <div class="ml-4">
-                    <a asp-action="Details" asp-route-id="@launch.Id"><img src="@launch.ImgUrl" class="card-img" alt="@launch.Name" style="max-width: 100px; max-height: 200px;"></a>
+                    <a asp-action="Details" asp-controller="Game" asp-route-id="@launch.Id"><img src="@launch.ImgUrl" class="card-img" alt="@launch.Name" style="max-width: 100px; max-height: 200px;"></a>
                     <div>
                         <div class="text-center">
                             <h5 class="card-title text-center mt-2">@launch.Name</h5>
